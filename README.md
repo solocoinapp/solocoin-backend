@@ -95,4 +95,9 @@ For production environment (Don't deploy without admin's approval)
 ```shell
 cap production deploy
 ```
+## How to contribute?
 
+* Look for un-assigned issues [here](https://github.com/arbob/Coronago-backend/issues?q=is%3Aopen+is%3Aissue+no%3Aassignee)
+* Ask questions and clarifications by commenting on the issue
+* Implement the feature/fix and open a pull request 
+ 
