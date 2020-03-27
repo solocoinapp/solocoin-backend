@@ -56,11 +56,6 @@ Rename application.yml.local to application.yml in /config directory for local e
 ```shell
 rails db:setup db:seed
 ```
-### Create data for local environment
-
-```shell
-rails development_tasks:seed_dev_data
-```
 
 ## Run the server
 
