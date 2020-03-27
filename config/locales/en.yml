@@ -30,4 +30,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  general:
+    saved: "Changes saved successfully."
+    something_went_wrong: "Something went wrong, please try again."
+    validation_failed: "Validation failed"
+    not_found: "Not found"
+    csrf_token_expired: 'Oops, looks like you have stayed too long on that page before submitting, please try again.'
+    required_field: "%{field} can not be blank"
+    invalid_value: "%{field} is not valid"
