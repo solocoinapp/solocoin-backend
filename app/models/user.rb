@@ -94,8 +94,8 @@ class User < ApplicationRecord
 
   def lat_lng_unchanged
     if self.persisted?
-      errors.add(:lat, 'can not be updated once set!') if lat_changed?
-      errors.add(:lng, 'can not be updated once set!') if lng_changed?
+      errors.add(:lat, 'can not be updated once set!') if lat_was.present? && lat_changed?
+      errors.add(:lng, 'can not be updated once set!') if lng_was.present? && lng_changed?
     end
   end
 
