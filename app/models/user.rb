@@ -28,6 +28,17 @@ class User < ApplicationRecord
   validate :lat_lng_unchanged
   validates_length_of :name, minimum: 3, maximum: 30
 
+  # Reverse geocoding for city finder
+  reverse_geocoded_by :lat, :lng do |user, results|
+    if geo = results.first
+      user.city = geo.city
+      user.country_code = geo.country_code
+    end
+  rescue => e
+    Rails.logger.error("Failed to geocode city or country_code due to #{e.message}")
+  end
+  after_validation :reverse_geocode
+
   before_create :set_identifier
 
   def set_identifier
