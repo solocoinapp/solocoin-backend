@@ -58,6 +58,8 @@ rails db:setup db:seed
 ```
 ### Create data for local environment
 
+This will setup data for your local development and testing, look the data [here](https://github.com/arbob/Coronago-backend/blob/3f19d53637a53f660738f2671c5fb4ab17529fef/lib/tasks/development_data_seed.rake#L1) to start using it.
+
 ```shell
 rails development_tasks:seed_dev_data
 ```
