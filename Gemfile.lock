@@ -172,6 +172,7 @@ GEM
     ffi (1.12.2)
     figaro (1.1.1)
       thor (~> 0.14)
+    foreman (0.87.0)
     fugit (1.1.6)
       et-orbi (~> 1.1, >= 1.1.6)
       raabro (~> 1.1)
@@ -380,6 +381,7 @@ DEPENDENCIES
   factory_bot_rails (>= 5.0.1)
   fcm
   figaro
+  foreman
   geokit-rails (>= 2.3.1)
   jbuilder (~> 2.5)
   letter_opener (~> 1.6)

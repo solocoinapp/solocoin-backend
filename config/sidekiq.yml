@@ -3,4 +3,3 @@
 :queues:
   - [default, 3]
   - [low, 1]
-:schedule:
