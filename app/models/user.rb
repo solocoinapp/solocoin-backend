@@ -79,10 +79,10 @@ class User < ApplicationRecord
   end
 
   def self.fetch_leader_board_stats(current_user)
-    @current_user_name   = current_user.name
+    @current_user_id     = current_user.id
     @leader_board_limit  = LEADER_BOARD_LIMIT
     sql = <<-SQL
-        WITH leader_board AS (SELECT name, country_code, wallet_balance, RANK() OVER (ORDER BY wallet_balance DESC) AS wb_rank FROM users)
+        WITH leader_board AS (SELECT id, name, country_code, wallet_balance, RANK() OVER (ORDER BY wallet_balance DESC) AS wb_rank FROM users)
         (
           SELECT name, country_code, wb_rank, wallet_balance
           FROM leader_board
@@ -92,7 +92,7 @@ class User < ApplicationRecord
         (
           SELECT name, country_code, wb_rank, wallet_balance
           FROM leader_board
-          WHERE name = '#{@current_user_name}'
+          WHERE id = '#{@current_user_id}'
         )
     SQL
 
