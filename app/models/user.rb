@@ -25,6 +25,7 @@ class User < ApplicationRecord
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, if: :email_auth_validations
   validates :mobile, uniqueness: true, allow_blank: true
   validate :password_complexity, if: :email_auth_validations
+  validate :lat_lng_unchanged
   validates_length_of :name, minimum: 3, maximum: 30
 
   before_create :set_identifier
@@ -90,4 +91,12 @@ class User < ApplicationRecord
   def profile_picture_size
     errors.add :profile_picture, :profile_picture_size_limit if profile_picture.size > 10.megabytes
   end
+
+  def lat_lng_unchanged
+    if self.persisted?
+      errors.add(:lat, 'can not be updated once set!') if lat_was.present? && lat_changed?
+      errors.add(:lng, 'can not be updated once set!') if lng_was.present? && lng_changed?
+    end
+  end
+
 end
