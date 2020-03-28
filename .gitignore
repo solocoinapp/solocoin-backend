@@ -36,6 +36,9 @@ coverage/
 
 /public/assets
 .byebug_history
+public/*
 
+.terraform
+.terraform/*
 # Ignore master key for decrypting credentials and more.
 /config/master.key
