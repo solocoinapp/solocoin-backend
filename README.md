@@ -82,3 +82,6 @@ For production environment (Don't deploy without admin's approval)
 cap production deploy
 ```
 
+## Infrastructure Configuration
+
+This application leverages terraform to manage cloud resources. See the [Infrastructure Documentation](infra/README.md) for more information on resource creation.
