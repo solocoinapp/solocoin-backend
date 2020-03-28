@@ -235,6 +235,11 @@ GEM
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
     pg (1.0.0)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     public_suffix (4.0.3)
     puma (3.12.4)
     raabro (1.1.6)
@@ -390,6 +395,7 @@ DEPENDENCIES
   mini_magick
   msg91ruby
   pg (>= 0.18, < 2.0)
+  pry-rails
   puma (~> 3.12)
   rack!
   rack-mini-profiler (~> 1.0)
