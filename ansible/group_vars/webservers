@@ -23,7 +23,7 @@ shared_dirs:
   - shared/public
   - shared/tmp
 
-RAILS_APP_LOG_PATH: "/home/deploy/"{{ deploy_app_name }}"/shared/log"
+RAILS_APP_LOG_PATH: /home/deploy/"{{ deploy_app_name }}"/shared/log
 
 # Authorized Hosts
 # This copies your local public key to the remote machine

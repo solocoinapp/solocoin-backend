@@ -1,5 +1,5 @@
 ---
-rails_logrotate_name: '{{ app_name }}'
+rails_logrotate_name: '{{ deploy_app_name }}'
 
 rails_logrotate_path: '{{ RAILS_APP_LOG_PATH }}'
 rails_logrotate_mask: '*.log'
