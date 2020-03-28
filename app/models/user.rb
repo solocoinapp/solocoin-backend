@@ -1,5 +1,8 @@
 
 class User < ApplicationRecord
+
+  LEADER_BOARD_LIMIT = 10
+
   acts_as_mappable
   audited except: :password
   devise :database_authenticatable, :registerable, :timeoutable, :lockable,
@@ -73,6 +76,28 @@ class User < ApplicationRecord
         end
       end
     end
+  end
+
+  def self.fetch_leader_board_stats(current_user)
+    @current_user_name   = current_user.name
+    @leader_board_limit  = LEADER_BOARD_LIMIT
+    sql = <<-SQL
+        WITH leader_board AS (SELECT name, country_code, wallet_balance, RANK() OVER (ORDER BY wallet_balance DESC) AS wb_rank FROM users)
+        (
+          SELECT name, country_code, wb_rank, wallet_balance
+          FROM leader_board
+          LIMIT '#{@leader_board_limit}'
+        )
+        UNION ALL
+        (
+          SELECT name, country_code, wb_rank, wallet_balance
+          FROM leader_board
+          WHERE name = '#{@current_user_name}'
+        )
+    SQL
+
+    res = User.connection.execute(sql)
+    return res.as_json
   end
 
   private

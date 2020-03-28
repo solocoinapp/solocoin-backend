@@ -52,6 +52,8 @@ Rails.application.routes.draw do
           get :info
         end
       end
+
+      get 'leaderboard_stats' => 'users#fetch_leader_board_stats'
     end
   end
 end
