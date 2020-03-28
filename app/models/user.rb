@@ -1,5 +1,6 @@
 
 class User < ApplicationRecord
+  acts_as_mappable
   audited except: :password
   devise :database_authenticatable, :registerable, :timeoutable, :lockable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
