@@ -19,7 +19,7 @@ This app currently works with:
 ### Clone the repository
 
 ```shell
-git clone https://github.com/arbob/Coronago-backend
+git clone https://github.com/coronagoapp/Coronago-backend
 cd Coronago-backend
 ```
 
