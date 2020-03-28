@@ -64,10 +64,10 @@ This will setup data for your local development and testing, look the data [here
 rails development_tasks:seed_dev_data
 ```
 
-## Run the server
+## Run dev dependencies
 
 ```shell
-rails s
+bundle exec foreman start
 ```
 ## Configure new machines
 
@@ -101,5 +101,5 @@ cap production deploy
 
 * Look for un-assigned issues [here](https://github.com/arbob/Coronago-backend/issues?q=is%3Aopen+is%3Aissue+no%3Aassignee)
 * Ask questions and clarifications by commenting on the issue
-* Implement the feature/fix and open a pull request 
- 
+* Implement the feature/fix and open a pull request
+
