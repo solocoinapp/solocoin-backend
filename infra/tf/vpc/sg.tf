@@ -8,7 +8,15 @@ resource "aws_security_group" "app_servers" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = module.vpc.vpc_cidr_block
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Port 22 from world to application servers"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
