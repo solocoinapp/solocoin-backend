@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_many :wallet_transactions, dependent: :destroy
   has_many :notification_tokens, dependent: :destroy
   before_validation :remove_devise_validations, unless: :email_auth_validations
+  after_validation :reverse_geocode
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, if: :email_auth_validations
@@ -38,21 +39,7 @@ class User < ApplicationRecord
   rescue => e
     report_exception(e)
   end
-  after_validation :reverse_geocode
-
-  before_create :set_identifier
-
-  def set_identifier
-    self.identifier = generate_identifier
-  end
-
-  def generate_identifier
-    loop do
-      identifier = 8.times.map{rand(10)}.join
-      break identifier unless User.where(identifier: identifier).exists?
-    end
-  end
-
+ 
   def password_complexity
     return if password.blank? || password =~ /^(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,70}$/
     errors.add :password, :password_complexity_error
