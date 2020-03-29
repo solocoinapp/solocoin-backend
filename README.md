@@ -103,3 +103,6 @@ cap production deploy
 * Ask questions and clarifications by commenting on the issue
 * Implement the feature/fix and open a pull request
 
+## Infrastructure Configuration
+
+This application leverages terraform to manage cloud resources. See the [Infrastructure Documentation](infra/README.md) for more information on resource creation.
