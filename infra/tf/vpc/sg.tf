@@ -22,7 +22,7 @@ resource "aws_security_group" "databases" {
   vpc_id      = "${module.vpc.vpc_id}"
 
   ingress {
-    description = "Port 80 from world to application servers"
+    description = "Port 5432 from application servers to databases"
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
