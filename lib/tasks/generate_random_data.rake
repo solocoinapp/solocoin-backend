@@ -1,12 +1,17 @@
 namespace :generate_random_data do
 
   desc 'Generates a million random entries in users table'
-  task populate_user_table: :environment do
+  task :populate_user_table, [:record_count] => :environment do |task, args|
     puts 'Task started!'
     all_chars = ('a'..'z').to_a
     creation_time = Time.zone.now
     user_data = []
-    1_000_000.times do
+    record_count = args[:record_count].to_i
+    if record_count <= 0
+      record_count = 1_000_000 # Default
+    end
+    puts "Generating #{record_count} entries."
+    record_count.times do
       user_data << ['test_user', "#{all_chars.shuffle[0, 10].join}@coronago.com",
                     'IN', rand(100000) / (rand(100) + 1.0), creation_time, creation_time]
     end
