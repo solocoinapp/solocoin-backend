@@ -129,6 +129,14 @@ GEM
     capistrano3-puma (1.2.1)
       capistrano (~> 3.0)
       puma (>= 2.6)
+    capybara (3.31.0)
+      addressable
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.8)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      regexp_parser (~> 1.5)
+      xpath (~> 3.2)
     carrierwave (1.3.1)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
@@ -278,6 +286,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redis (4.0.3)
+    regexp_parser (1.7.0)
     request_store (1.5.0)
       rack (>= 1.4)
     responders (3.0.0)
@@ -359,6 +368,8 @@ GEM
     websocket-extensions (0.1.4)
     will_paginate (3.1.7)
     xml-simple (1.1.5)
+    xpath (3.2.0)
+      nokogiri (~> 1.8)
 
 PLATFORMS
   ruby
@@ -378,6 +389,7 @@ DEPENDENCIES
   capistrano-rvm
   capistrano-sidekiq
   capistrano3-puma
+  capybara
   carrierwave-aws
   carrierwave-base64
   custom_error_message!

@@ -80,6 +80,7 @@ group :development do
 end
 
 group :test do
+  gem 'capybara'
   gem 'database_cleaner'
   gem 'rspec-rails', '~> 3.8', '>= 3.8.1'
   gem "factory_bot_rails", ">= 5.0.1"
