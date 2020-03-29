@@ -77,7 +77,7 @@ class User < ApplicationRecord
   end
 
   def active_session
-    sessions.find_by(status: 'in-progress')
+    @session ||= sessions.find_by(status: 'in-progress')
   end
 
   def has_active_session?

@@ -53,7 +53,7 @@ Rails.application.routes.draw do
         end
       end
 
-      post 'sessions/start', to: 'sessions#start', as: :session_start
+      resources :sessions, only: :create
     end
   end
 end

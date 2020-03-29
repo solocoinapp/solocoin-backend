@@ -1,5 +1,5 @@
 class Api::V1::SessionsController < Api::BaseController
-  def start
+  def create
     ensure_one_active_session
     @session = Session.new(create_params)
     @session.save!
@@ -13,14 +13,19 @@ class Api::V1::SessionsController < Api::BaseController
   end
 
   def create_params
-    type = session_params[:type]
-    { session_type: type }.merge(user: current_user, status: 0, start_time: Time.zone.now)
+    { session_type: session_params[:type],
+      user: current_user,
+      status: 0,
+      start_time: Time.zone.now }
   end
 
   def ensure_one_active_session
     if current_user.has_active_session?
-      terminated_session = Sessions.terminate(current_user.active_session)
-      after_terminate_session(terminated_session)
+
+      Session.transaction do
+        session = Sessions.terminate(current_user.active_session)
+        after_terminate_session(session)
+      end
     end
   end
 
