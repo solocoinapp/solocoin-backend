@@ -7,6 +7,7 @@ class WalletTransaction < ApplicationRecord
   enum transaction_type: [:debit, :credit]
 
   before_create :set_identifier
+  after_update_commit :update_user_wallet_balance
 
   private
 
@@ -19,5 +20,9 @@ class WalletTransaction < ApplicationRecord
       identifier = 8.times.map{rand(10)}.join
       break identifier unless self.class.where(identifier: identifier).exists?
     end
+  end
+
+  def update_user_wallet_balance
+    user.update!(wallet_balance: closing_balance)
   end
 end
