@@ -2,6 +2,7 @@
 class User < ApplicationRecord
 
   LEADERBOARD_LIMIT  = 10
+  LEADERBOARD_FIELDS = [:id, :name, :profile_picture_url, :country_code, :wallet_balance]
 
   acts_as_mappable
   audited except: :password
@@ -79,10 +80,8 @@ class User < ApplicationRecord
   end
 
   def self.fetch_leaderboard_stats(current_user)
-    essential_fields  = [:id, :name, :profile_picture_url, :country_code, :wallet_balance]
-
     # Fetches top users with maximum wallet_balance. Also appends their respective rank.
-    top_users_json    = User.order('wallet_balance desc').limit(LEADERBOARD_LIMIT).as_json(only: essential_fields)
+    top_users_json    = User.order('wallet_balance desc').limit(LEADERBOARD_LIMIT).as_json(only: LEADERBOARD_FIELDS)
     top_users_json.each_with_index do |user, idx|
       user['wb_rank'] = idx + 1
     end
@@ -92,9 +91,9 @@ class User < ApplicationRecord
     # Else, finds rank of current user and build its json
     current_user_in_top_users = top_users_json.select{|user| user['id'] == current_user.id}
     if current_user_in_top_users.present?
-      current_user_json = current_user_in_top_users
+      current_user_json = current_user_in_top_users.first
     else
-      current_user_json = current_user.as_json(only: essential_fields)
+      current_user_json = current_user.as_json(only: LEADERBOARD_FIELDS)
       current_user_rank = User.where('wallet_balance > ?', current_user.wallet_balance).count + 1
       current_user_json['wb_rank'] = current_user_rank
     end
