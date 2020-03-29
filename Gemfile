@@ -44,10 +44,11 @@ gem 'sidekiq-scheduler'
 gem 'custom_error_message', git: 'https://github.com/thethanghn/custom-err-msg.git'
 gem 'rqrcode'
 
-
 # Logging
 gem 'lograge', '>= 0.11.2'
 
+# Geo coding
+gem 'geocoder'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
