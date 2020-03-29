@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 2020_03_29_171111) do
     t.string "identifier"
     t.decimal "lat", precision: 10, scale: 6
     t.decimal "lng", precision: 10, scale: 6
+    t.string "city"
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"

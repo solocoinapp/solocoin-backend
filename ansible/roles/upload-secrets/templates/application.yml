@@ -5,7 +5,7 @@ secret_key_base: "{{ secret_key_base }}"
 
 # Device secret
 devise_secret_key: "{{ devise_secret_key }}"
-
+appsignal_push_api_key: "{{ appsignal_push_api_key }}"
 APPSIGNAL_APP_ENV: "{{ appsignal_app_env }}"
 
 # ======== AWS ========

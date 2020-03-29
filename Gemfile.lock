@@ -184,6 +184,7 @@ GEM
     fugit (1.1.6)
       et-orbi (~> 1.1, >= 1.1.6)
       raabro (~> 1.1)
+    geocoder (1.6.2)
     geokit (1.13.1)
     geokit-rails (2.3.1)
       geokit (~> 1.5)
@@ -399,6 +400,7 @@ DEPENDENCIES
   fcm
   figaro
   foreman
+  geocoder
   geokit-rails (>= 2.3.1)
   jbuilder (~> 2.5)
   letter_opener (~> 1.6)
