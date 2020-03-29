@@ -38,4 +38,3 @@ en:
     csrf_token_expired: 'Oops, looks like you have stayed too long on that page before submitting, please try again.'
     required_field: "%{field} can not be blank"
     invalid_value: "%{field} is not valid"
-    session_not_found: "Session not found, please try again"
