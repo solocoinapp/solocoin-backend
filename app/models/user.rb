@@ -1,7 +1,7 @@
 
 class User < ApplicationRecord
 
-  LEADER_BOARD_LIMIT = 10
+  LEADERBOARD_LIMIT  = 10
 
   acts_as_mappable
   audited except: :password
@@ -78,26 +78,31 @@ class User < ApplicationRecord
     end
   end
 
-  def self.fetch_leader_board_stats(current_user)
-    @current_user_id     = current_user.id
-    @leader_board_limit  = LEADER_BOARD_LIMIT
-    sql = <<-SQL
-        WITH leader_board AS (SELECT id, name, country_code, wallet_balance, RANK() OVER (ORDER BY wallet_balance DESC) AS wb_rank FROM users)
-        (
-          SELECT name, country_code, wb_rank, wallet_balance
-          FROM leader_board
-          LIMIT '#{@leader_board_limit}'
-        )
-        UNION ALL
-        (
-          SELECT name, country_code, wb_rank, wallet_balance
-          FROM leader_board
-          WHERE id = '#{@current_user_id}'
-        )
-    SQL
+  def self.fetch_leaderboard_stats(current_user)
+    essential_fields  = [:id, :name, :profile_picture_url, :country_code, :wallet_balance]
 
-    res = User.connection.execute(sql)
-    return res.as_json
+    # Fetches top users with maximum wallet_balance. Also appends their respective rank.
+    top_users_json    = User.order('wallet_balance desc').limit(LEADERBOARD_LIMIT).as_json(only: essential_fields)
+    top_users_json.each_with_index do |user, idx|
+      user['wb_rank'] = idx + 1
+    end
+
+    # Checks if current user is in top users
+    # If yes, then we are done.
+    # Else, finds rank of current user and build its json
+    current_user_in_top_users = top_users_json.select{|user| user['id'] == current_user.id}
+    if current_user_in_top_users.present?
+      current_user_json = current_user_in_top_users
+    else
+      current_user_json = current_user.as_json(only: essential_fields)
+      current_user_rank = User.where('wallet_balance > ?', current_user.wallet_balance).count + 1
+      current_user_json['wb_rank'] = current_user_rank
+    end
+
+    return {
+        top_users: top_users_json,
+        user: current_user_json
+    }
   end
 
   private

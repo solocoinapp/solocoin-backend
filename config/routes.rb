@@ -53,7 +53,7 @@ Rails.application.routes.draw do
         end
       end
 
-      get 'leaderboard_stats' => 'users#fetch_leader_board_stats'
+      resource :leaderboard, only: :show
     end
   end
 end

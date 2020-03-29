@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action :set_user, only: %i[show update info fetch_leader_board_stats]
-  before_action :check_ownership, only: %i[show update info fetch_leader_board_stats]
+  before_action :set_user, only: %i[show update info]
+  before_action :check_ownership, only: %i[show update info]
 
   def show
     render json: {user: UserSerializer.new(@user).as_json}
@@ -25,11 +25,6 @@ class Api::V1::UsersController < Api::BaseController
     else
       render_error(:unprocessable_entity, @notification_token.errors.full_messages.to_sentence)
     end
-  end
-
-  def fetch_leader_board_stats
-    response = User.fetch_leader_board_stats(@user)
-    render json: response
   end
 
   private
