@@ -7,7 +7,7 @@ class WalletTransaction < ApplicationRecord
   enum transaction_type: [:debit, :credit]
 
   before_create :set_identifier
-  after_update_commit :update_user_wallet_balance
+  after_create_commit :update_user_wallet_balance
 
   private
 

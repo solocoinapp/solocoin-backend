@@ -15,9 +15,9 @@ class Session < ApplicationRecord
   private
 
   def reward
-    if session_type.eql?('home')
+    if session_type == 'home'
       self.rewards = reward_for_isolation
-    elsif session_type.eql?('away')
+    elsif session_type == 'away'
       self.rewards = reward_for_being_away
     end
   end
