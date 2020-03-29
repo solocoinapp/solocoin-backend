@@ -28,19 +28,6 @@ class User < ApplicationRecord
   validate :lat_lng_unchanged
   validates_length_of :name, minimum: 3, maximum: 30
 
-  before_create :set_identifier
-
-  def set_identifier
-    self.identifier = generate_identifier
-  end
-
-  def generate_identifier
-    loop do
-      identifier = 8.times.map{rand(10)}.join
-      break identifier unless User.where(identifier: identifier).exists?
-    end
-  end
-
   def password_complexity
     return if password.blank? || password =~ /^(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,70}$/
     errors.add :password, :password_complexity_error
