@@ -23,7 +23,6 @@ class Session < ApplicationRecord
   end
 
   def session_minutes
-    self.start_time = Time.zone.now - 100.minutes
     ((end_time - start_time) / 1.minutes).round
   end
 
