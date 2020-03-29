@@ -1,5 +1,6 @@
-
 class User < ApplicationRecord
+  include ExceptionHandlers
+
   acts_as_mappable
   audited except: :password
   devise :database_authenticatable, :registerable, :timeoutable, :lockable,
@@ -19,6 +20,7 @@ class User < ApplicationRecord
   has_many :wallet_transactions, dependent: :destroy
   has_many :notification_tokens, dependent: :destroy
   before_validation :remove_devise_validations, unless: :email_auth_validations
+  after_validation :reverse_geocode
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, if: :email_auth_validations
@@ -28,6 +30,16 @@ class User < ApplicationRecord
   validate :lat_lng_unchanged
   validates_length_of :name, minimum: 3, maximum: 30
 
+  # Reverse geocoding for city finder
+  reverse_geocoded_by :lat, :lng do |user, results|
+    if geo = results.first
+      user.city = geo.city
+      user.country_code = geo.country_code
+    end
+  rescue => e
+    report_exception(e)
+  end
+ 
   def password_complexity
     return if password.blank? || password =~ /^(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,70}$/
     errors.add :password, :password_complexity_error
