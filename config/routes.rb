@@ -52,6 +52,9 @@ Rails.application.routes.draw do
           get :info
         end
       end
+
+      post 'sessions/start', to: 'sessions#start', as: :session_start
+      post 'sessions/end', to: 'sessions#end', as: :session_end
     end
   end
 end
