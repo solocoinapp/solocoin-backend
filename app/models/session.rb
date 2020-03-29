@@ -7,6 +7,11 @@ class Session < ApplicationRecord
   before_update :reward
   after_update_commit :update_wallet_transaction
 
+  def end_session
+    self.end_time = Time.zone.now
+    update!(status: 1)
+  end
+
   private
 
   def reward

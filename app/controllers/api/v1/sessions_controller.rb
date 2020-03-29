@@ -1,5 +1,9 @@
 class Api::V1::SessionsController < Api::BaseController
   def start
+    if current_user.has_active_session?
+      current_user.active_session.end_session
+    end
+
     @session = Session.new(create_params)
     @session.save!
 
