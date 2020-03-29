@@ -1,5 +1,6 @@
-
 class User < ApplicationRecord
+  include ExceptionHandlers
+
   acts_as_mappable
   audited except: :password
   devise :database_authenticatable, :registerable, :timeoutable, :lockable,
@@ -35,7 +36,7 @@ class User < ApplicationRecord
       user.country_code = geo.country_code
     end
   rescue => e
-    Rails.logger.error("Failed to geocode city or country_code due to #{e.message}")
+    report_exception(e)
   end
   after_validation :reverse_geocode
 
