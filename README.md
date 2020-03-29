@@ -64,7 +64,7 @@ This will setup data for your local development and testing, look the data [here
 rails development_tasks:seed_dev_data
 ```
 
-## Run dev dependencies
+### Run dev dependencies
 
 ```shell
 bundle exec foreman start
