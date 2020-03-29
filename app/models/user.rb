@@ -1,5 +1,6 @@
-
 class User < ApplicationRecord
+  include ExceptionHandlers
+
   acts_as_mappable
   audited except: :password
   devise :database_authenticatable, :registerable, :timeoutable, :lockable,
@@ -27,6 +28,17 @@ class User < ApplicationRecord
   validate :password_complexity, if: :email_auth_validations
   validate :lat_lng_unchanged
   validates_length_of :name, minimum: 3, maximum: 30
+
+  # Reverse geocoding for city finder
+  reverse_geocoded_by :lat, :lng do |user, results|
+    if geo = results.first
+      user.city = geo.city
+      user.country_code = geo.country_code
+    end
+  rescue => e
+    report_exception(e)
+  end
+  after_validation :reverse_geocode
 
   before_create :set_identifier
 
