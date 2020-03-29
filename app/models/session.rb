@@ -16,9 +16,9 @@ class Session < ApplicationRecord
 
   def reward
     if session_type == 'home'
-      self.rewards = reward_for_isolation
+      self.rewards = rewards_for_isolation
     elsif session_type == 'away'
-      self.rewards = reward_for_being_away
+      self.rewards = rewards_for_being_away
     end
   end
 
@@ -27,11 +27,11 @@ class Session < ApplicationRecord
     ((end_time - start_time) / 1.minutes).round
   end
 
-  def reward_for_isolation
+  def rewards_for_isolation
     (session_minutes / 10).round
   end
 
-  def reward_for_being_away
+  def rewards_for_being_away
     -(session_minutes / 10).round * 10
   end
 
