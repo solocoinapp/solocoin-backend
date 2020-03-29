@@ -1,10 +1,6 @@
 class Api::V1::SessionsController < Api::BaseController
   def start
-    @session = Session.new(
-      user: current_user,
-      status: 0,
-      start_time: Time.zone.now
-    )
+    @session = Session.new(create_params)
     @session.save!
 
     render json: @session, status: :created
@@ -15,6 +11,19 @@ class Api::V1::SessionsController < Api::BaseController
       @session = current_user.active_session
       @session.update!(end_time: Time.zone.now, status: 1)
       render json: @session, status: :ok
+    else
+      render_error(422, t('general.session_not_found'))
     end
+  end
+
+  private
+
+  def session_params
+    params.require(:session).permit(:type)
+  end
+
+  def create_params
+    type = session_params[:type]
+    { session_type: type }.merge(user: current_user, status: 0, start_time: Time.zone.now)
   end
 end
