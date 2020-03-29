@@ -1,8 +1,7 @@
 class Api::V1::SessionsController < Api::BaseController
   def create
     ensure_one_active_session
-    @session = Session.new(create_params)
-    @session.save!
+    @session = Session.create!(create_params)
     render json: @session, status: :created
   end
 
@@ -21,7 +20,6 @@ class Api::V1::SessionsController < Api::BaseController
 
   def ensure_one_active_session
     if current_user.has_active_session?
-
       Session.transaction do
         session = Sessions.terminate(current_user.active_session)
         after_terminate_session(session)
