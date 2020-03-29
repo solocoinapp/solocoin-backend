@@ -19,7 +19,7 @@ This app currently works with:
 ### Clone the repository
 
 ```shell
-git clone https://github.com/arbob/Coronago-backend
+git clone https://github.com/coronagoapp/Coronago-backend
 cd Coronago-backend
 ```
 
@@ -64,7 +64,7 @@ This will setup data for your local development and testing, look the data [here
 rails development_tasks:seed_dev_data
 ```
 
-## Run dev dependencies
+### Run dev dependencies
 
 ```shell
 bundle exec foreman start
@@ -103,3 +103,6 @@ cap production deploy
 * Ask questions and clarifications by commenting on the issue
 * Implement the feature/fix and open a pull request
 
+## Infrastructure Configuration
+
+This application leverages terraform to manage cloud resources. See the [Infrastructure Documentation](infra/README.md) for more information on resource creation.
