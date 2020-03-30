@@ -7,5 +7,6 @@ FactoryBot.define do
     sequence(:mobile) { |n| "123456789#{n}" }
     password { 'password@123' }
     wallet_balance { 100 }
+    auth_token { 'yEU27a78WEcH-sGWMeSs' }
   end
 end

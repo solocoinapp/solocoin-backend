@@ -52,6 +52,8 @@ Rails.application.routes.draw do
           get :info
         end
       end
+
+      resources :sessions, only: :create
     end
   end
 end

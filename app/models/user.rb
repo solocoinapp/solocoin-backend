@@ -19,6 +19,7 @@ class User < ApplicationRecord
   has_many :identities, dependent: :destroy
   has_many :wallet_transactions, dependent: :destroy
   has_many :notification_tokens, dependent: :destroy
+  has_many :sessions, dependent: :destroy
   before_validation :remove_devise_validations, unless: :email_auth_validations
   after_validation :reverse_geocode
 
@@ -72,6 +73,14 @@ class User < ApplicationRecord
         end
       end
     end
+  end
+
+  def active_session
+    @session ||= sessions.find_by(status: 'in-progress')
+  end
+
+  def has_active_session?
+    !!active_session
   end
 
   private
