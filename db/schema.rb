@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_29_053156) do
+ActiveRecord::Schema.define(version: 2020_03_29_155716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,7 +102,6 @@ ActiveRecord::Schema.define(version: 2020_03_29_053156) do
     t.string "profile_picture"
     t.boolean "email_auth_validations", default: true
     t.integer "company_id"
-    t.string "identifier"
     t.decimal "lat", precision: 10, scale: 6
     t.decimal "lng", precision: 10, scale: 6
     t.string "city"
@@ -115,7 +114,6 @@ ActiveRecord::Schema.define(version: 2020_03_29_053156) do
   end
 
   create_table "wallet_transactions", force: :cascade do |t|
-    t.string "identifier"
     t.string "description"
     t.decimal "amount", precision: 10, scale: 2
     t.integer "transaction_type"
