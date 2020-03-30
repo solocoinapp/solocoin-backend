@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include ExceptionHandlers
+  extend ExceptionHandlers
 
   acts_as_mappable
   audited except: :password
