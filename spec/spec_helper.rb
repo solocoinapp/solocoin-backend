@@ -4,7 +4,7 @@ require 'sidekiq/testing'
 require 'webmock/rspec'
 require 'simplecov'
 require 'rails_helper'
-# require 'helpers'
+#require 'helpers'
 
 Sidekiq::Testing.inline!
 WebMock.enable!

@@ -53,6 +53,7 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :sessions, only: :create
       resource :leaderboard, only: :show
     end
   end
