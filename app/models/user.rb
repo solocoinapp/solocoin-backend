@@ -39,7 +39,14 @@ class User < ApplicationRecord
   rescue => e
     report_exception(e)
   end
- 
+
+  def self.onboard_from_mobile(params)
+    user = User.find_or_initialize_by(mobile: params[:mobile])
+    user.name = params[:name]
+    user.identities.find_or_initialize_by(provider: 'mobile', uid: params[:uid])
+    user.save
+  end
+
   def password_complexity
     return if password.blank? || password =~ /^(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,70}$/
     errors.add :password, :password_complexity_error

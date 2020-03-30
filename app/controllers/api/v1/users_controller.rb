@@ -1,18 +1,14 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action :set_user, only: %i[show update info]
-  before_action :check_ownership, only: %i[show update info]
+  before_action :set_user, only: %i[show update]
+  before_action :check_ownership, only: %i[show update]
 
   def show
-    render json: {user: UserSerializer.new(@user).as_json}
-  end
-
-  def info
-    render json: UserSerializer.new(@user).as_json
+    render json: @user
   end
 
   def update
     if @user.update(user_params)
-      render json: UserSerializer.new(@user).as_json
+      render json: @user
     else
       render json: { errors: @user.errors }, status: :unprocessable_entity
     end

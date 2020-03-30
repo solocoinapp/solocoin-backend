@@ -4,15 +4,14 @@ class Api::V1::CallbacksController < Api::BaseController
   before_action :validate_name, only: :mobile_sign_up
 
   def mobile_login
-    @user = User.consumers.find_by!(mobile: mobile_provider_params[:mobile])
+    @user = User.find_by!(mobile: mobile_provider_params[:mobile])
     render_success
   end
 
   def mobile_sign_up
-    @user = User.find_or_initialize_by(mobile: mobile_provider_params[:mobile])
-    @user.update(name: mobile_provider_params[:name])
-    @user.save_provider_auth_user
-    if @user.persisted? && @user.identities.find_or_create_by(provider: 'mobile', uid: mobile_provider_params[:uid])
+    @user = User.onboard_from_mobile(mobile_provider_params)
+
+    if @user.valid?
       render_succes
     else
       @error_message = t('callbacks.oauth_failure')
@@ -24,10 +23,7 @@ class Api::V1::CallbacksController < Api::BaseController
   private
 
   def verify_firebase_token
-    body = {idToken: mobile_provider_params[:id_token]}
-    api_response = HTTParty.post("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=#{ENV['firebase_admin_api_key']}", body: body)
-    unless api_response.code == 200 && api_response['users'].first['phoneNumber'] == '+91' + mobile_provider_params[:mobile]
-      logger.error("Firebase idToken verification failed. body: #{api_response}, status: #{api_response.code}, params: #{mobile_provider_params}")
+    unless Clients::FirebaseClient.instance.info_exists?(mobile_provider_params[:id_token], mobile_provider_params[:mobile])
       render json: { error: t('callbacks.provider_token_verification_failure') }, status: :unprocessable_entity
     end
   end
