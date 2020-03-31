@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_28_172444) do
+ActiveRecord::Schema.define(version: 2020_03_29_155716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,19 @@ ActiveRecord::Schema.define(version: 2020_03_28_172444) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "session_type"
+    t.integer "status"
+    t.integer "rewards", default: 0
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status"], name: "index_sessions_on_status"
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -89,7 +102,6 @@ ActiveRecord::Schema.define(version: 2020_03_28_172444) do
     t.string "profile_picture"
     t.boolean "email_auth_validations", default: true
     t.integer "company_id"
-    t.string "identifier"
     t.decimal "lat", precision: 10, scale: 6
     t.decimal "lng", precision: 10, scale: 6
     t.string "city"
@@ -102,7 +114,6 @@ ActiveRecord::Schema.define(version: 2020_03_28_172444) do
   end
 
   create_table "wallet_transactions", force: :cascade do |t|
-    t.string "identifier"
     t.string "description"
     t.decimal "amount", precision: 10, scale: 2
     t.integer "transaction_type"
@@ -115,4 +126,5 @@ ActiveRecord::Schema.define(version: 2020_03_28_172444) do
     t.index ["user_id"], name: "index_wallet_transactions_on_user_id"
   end
 
+  add_foreign_key "sessions", "users"
 end
