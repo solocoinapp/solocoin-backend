@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action :set_user, only: %i[show update info]
-  before_action :check_ownership, only: %i[show update info]
+  before_action :set_user, only: %i[show update]
+  before_action :check_ownership, only: %i[show update]
 
   def show
     render json: { user: UserSerializer.new(@user).as_json }
