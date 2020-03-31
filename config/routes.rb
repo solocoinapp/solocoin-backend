@@ -46,13 +46,8 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :users do
-        post :register_notification_token, on: :collection
-        member do
-          get :info
-        end
-      end
-
+      resources :users, only: %i[show update]
+      resources :notification_tokens, only: :create
       resources :sessions, only: :create
     end
   end
