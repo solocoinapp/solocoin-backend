@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_29_155716) do
+ActiveRecord::Schema.define(version: 2020_03_30_101923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 2020_03_29_155716) do
     t.index ["lat", "lng"], name: "index_users_on_lat_and_lng"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
+    t.index ["wallet_balance"], name: "index_users_on_wallet_balance", order: :desc
   end
 
   create_table "wallet_transactions", force: :cascade do |t|

@@ -6,33 +6,8 @@ Rails.application.routes.draw do
   # Authenticated routes
   mount Sidekiq::Web => '/sidekiq'
 
-  devise_for :users, skip: :registrations, path: 'users', path_names: {
-      sign_in: 'login',
-      sign_out: 'logout',
-      password: 'password',
-      confirmation: 'verification',
-      unlock: 'unblock'
-  },controllers: {
-      sessions: 'users/sessions',
-      confirmations: 'users/confirmations',
-      passwords: 'users/passwords',
-      unlocks: 'users/unlocks'
-  }
-
-  devise_scope :user do
-    resource :registration,
-             only: [:new, :create, :edit, :update],
-             path: 'users',
-             path_names: { new: 'sign_up' },
-             controller: 'users/registrations',
-             as: :user_registration do
-      get :cancel
-    end
-  end
-
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-
       devise_scope :user do
         post 'signin', to: 'users/sessions#create'
         post '/', to: 'users/registrations#create'
@@ -46,14 +21,11 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :users do
-        post :register_notification_token, on: :collection
-        member do
-          get :info
-        end
-      end
-
+      resources :users, only: :update
+      get 'users/profile', action: :show, controller: 'users'
+      resources :notification_tokens, only: :create
       resources :sessions, only: :create
+      resource :leaderboard, only: :show
     end
   end
 end

@@ -19,3 +19,5 @@ s3_secret_access_key: ""
 s3_region: ""
 s3_bucket_name: "coronago-local-images"
 
+# Firebase
+firebase_admin_api_key: "<change-me>"

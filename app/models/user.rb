@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   extend ExceptionHandlers
 
+  LEADERBOARD_LIMIT  = 10
+  LEADERBOARD_FIELDS = [:id, :name, :profile_picture_url, :country_code, :wallet_balance]
+
   acts_as_mappable
   audited except: :password
   devise :database_authenticatable, :registerable, :timeoutable, :lockable,
@@ -33,12 +36,21 @@ class User < ApplicationRecord
 
   # Reverse geocoding for city finder
   reverse_geocoded_by :lat, :lng do |user, results|
-    if geo = results.first
-      user.city = geo.city
-      user.country_code = geo.country_code
+    begin
+      if geo = results.first
+        user.city = geo.city
+        user.country_code = geo.country_code
+      end
+    rescue => e
+      report_exception(e)
     end
-  rescue => e
-    report_exception(e)
+  end
+
+  def self.onboard_from_mobile(params)
+    user = User.find_or_initialize_by(mobile: params[:mobile])
+    user.name = params[:name]
+    user.identities.find_or_initialize_by(provider: 'mobile', uid: params[:uid])
+    user.save
   end
 
   def password_complexity
@@ -81,6 +93,31 @@ class User < ApplicationRecord
 
   def has_active_session?
     !!active_session
+  end
+
+  def self.fetch_leaderboard_stats(current_user)
+    # Fetches top users with maximum wallet_balance. Also appends their respective rank.
+    top_users_json    = User.order('wallet_balance desc').limit(LEADERBOARD_LIMIT).as_json(only: LEADERBOARD_FIELDS)
+    top_users_json.each_with_index do |user, idx|
+      user['wb_rank'] = idx + 1
+    end
+
+    # Checks if current user is in top users
+    # If yes, then we are done.
+    # Else, finds rank of current user and build its json
+    current_user_in_top_users = top_users_json.select{|user| user['id'] == current_user.id}.first
+    if current_user_in_top_users.present?
+      current_user_json = current_user_in_top_users
+    else
+      current_user_json = current_user.as_json(only: LEADERBOARD_FIELDS)
+      current_user_rank = User.where('wallet_balance > ?', current_user.wallet_balance).count + 1
+      current_user_json['wb_rank'] = current_user_rank
+    end
+
+    return {
+        top_users: top_users_json,
+        user: current_user_json
+    }
   end
 
   private

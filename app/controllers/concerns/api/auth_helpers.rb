@@ -19,7 +19,7 @@ module Api
     end
 
     def check_ownership
-      render_unauthorized unless @user == @api_current_user
+      render_unauthorized if @user != @api_current_user
     end
   end
 end
