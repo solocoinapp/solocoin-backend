@@ -1,12 +1,9 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action :check_ownership, only: :update
-
   def show
     render json: current_user
   end
 
   def update
-    binding.pry
     if current_user.update(user_params)
       render json: current_user
     else
