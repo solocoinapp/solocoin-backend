@@ -12,7 +12,7 @@ namespace :generate_random_data do
     end
     puts "Generating #{record_count} entries."
     record_count.times do
-      user_data << ['test_user', "#{all_chars.shuffle[0, 10].join}@coronago.com",
+      user_data << ['test_user', "#{all_chars.shuffle[0, 10].join}@solocoin.com",
                     'IN', rand(100000) / (rand(100) + 1.0), creation_time, creation_time]
     end
     puts 'Data generated. Inserting now...'

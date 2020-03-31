@@ -36,12 +36,14 @@ class User < ApplicationRecord
 
   # Reverse geocoding for city finder
   reverse_geocoded_by :lat, :lng do |user, results|
-    if geo = results.first
-      user.city = geo.city
-      user.country_code = geo.country_code
+    begin
+      if geo = results.first
+        user.city = geo.city
+        user.country_code = geo.country_code
+      end
+    rescue => e
+      report_exception(e)
     end
-  rescue => e
-    report_exception(e)
   end
 
   def self.onboard_from_mobile(params)
@@ -103,9 +105,9 @@ class User < ApplicationRecord
     # Checks if current user is in top users
     # If yes, then we are done.
     # Else, finds rank of current user and build its json
-    current_user_in_top_users = top_users_json.select{|user| user['id'] == current_user.id}
+    current_user_in_top_users = top_users_json.select{|user| user['id'] == current_user.id}.first
     if current_user_in_top_users.present?
-      current_user_json = current_user_in_top_users.first
+      current_user_json = current_user_in_top_users
     else
       current_user_json = current_user.as_json(only: LEADERBOARD_FIELDS)
       current_user_rank = User.where('wallet_balance > ?', current_user.wallet_balance).count + 1
