@@ -46,7 +46,8 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :users, only: %i[show update]
+      resources :users, only: :update
+      get 'users/profile', action: :show, controller: 'users'
       resources :notification_tokens, only: :create
       resources :sessions, only: :create
       resource :leaderboard, only: :show

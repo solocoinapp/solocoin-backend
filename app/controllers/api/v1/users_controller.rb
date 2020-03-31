@@ -1,9 +1,9 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action :set_user, only: %i[show update]
-  before_action :check_ownership, only: %i[show update]
+  before_action :set_user, only: :update
+  before_action :check_ownership, only: :update
 
   def show
-    render json: @user
+    render json: current_user
   end
 
   def update
