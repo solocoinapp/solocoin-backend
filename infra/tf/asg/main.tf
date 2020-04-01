@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_elb" "web-elb" {
-  name = "coronago-app-elb"
+  name = "solocoin-app-elb"
 
   # The same availability zone as our instances
 #  availability_zones = "${split(",", var.availability_zones)}"

@@ -1,5 +1,5 @@
-resource "aws_elasticache_cluster" "coronagoapp_redis" {
-  cluster_id           = "coronagoapp-redis"
+resource "aws_elasticache_cluster" "solocoinapp_redis" {
+  cluster_id           = "solocoinapp-redis"
   engine               = "redis"
   node_type            = "cache.t2.micro"
   num_cache_nodes      = 1

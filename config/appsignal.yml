@@ -3,7 +3,7 @@ default: &defaults
   push_api_key: "<%= ENV['appsignal_push_api_key'] %>"
 
   # Your app's name
-  name: "CoronaGo"
+  name: "SoloCoin"
 
   # Actions that should not be monitored by AppSignal
   ignore_actions:

@@ -1,6 +1,6 @@
 ---
-host: coronagoapp.com
-deploy_server_hostname: coronagoapp.com
+host: solocoin.app
+deploy_server_hostname: solocoin.app
 cache_server_url: ""
 s3_region: us-east-1
 s3_bucket_name: ''

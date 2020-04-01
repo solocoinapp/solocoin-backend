@@ -1,8 +1,8 @@
-# Welcome to CoronaGo
+# Welcome to SoloCoin
 
 ## Description
 
-Backend app for CoronaGo app.
+Backend app for SoloCoin app.
 API documentation here https://documenter.getpostman.com/view/494437/SzYW1z2B
 
 ## Requirements
@@ -19,8 +19,8 @@ This app currently works with:
 ### Clone the repository
 
 ```shell
-git clone https://github.com/coronagoapp/Coronago-backend
-cd Coronago-backend
+git clone https://github.com/coronagoapp/solocoin-backend
+cd solocoin-backend
 ```
 
 ### Check your Ruby version
@@ -69,6 +69,10 @@ rails development_tasks:seed_dev_data
 ```shell
 bundle exec foreman start
 ```
+## Infrastructure Configuration
+
+This application leverages terraform to manage cloud resources. See the [Infrastructure Documentation](infra/README.md) for more information on resource creation.
+
 ## Configure new machines
 
 This needs to be run only once when new machines are added, app can be deployed using capistrano for subsequent deployments.
@@ -102,7 +106,3 @@ cap production deploy
 * Look for un-assigned issues [here](https://github.com/arbob/Coronago-backend/issues?q=is%3Aopen+is%3Aissue+no%3Aassignee)
 * Ask questions and clarifications by commenting on the issue
 * Implement the feature/fix and open a pull request
-
-## Infrastructure Configuration
-
-This application leverages terraform to manage cloud resources. See the [Infrastructure Documentation](infra/README.md) for more information on resource creation.
