@@ -1,7 +1,7 @@
 class Api::V1::NotificationTokensController < Api::BaseController
-
   def create
     @notification_token = current_user.notification_tokens.find_or_create_by(value: notification_token_params[:token])
+
     if @notification_token.valid?
       render json: {}, status: :created
     else
@@ -12,6 +12,6 @@ class Api::V1::NotificationTokensController < Api::BaseController
   private
 
   def notification_token_params
-    params.require(:user).permit(:token)
+    params.require(:notification).permit(:token)
   end
 end

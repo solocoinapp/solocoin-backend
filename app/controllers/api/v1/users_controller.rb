@@ -1,25 +1,13 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action :set_user, only: :update
-  before_action :check_ownership, only: :update
-
   def show
     render json: current_user
   end
 
   def update
-    if @user.update(user_params)
-      render json: @user
+    if current_user.update(user_params)
+      render json: current_user
     else
-      render json: { errors: @user.errors }, status: :unprocessable_entity
-    end
-  end
-
-  def register_notification_token
-    @notification_token = current_user.notification_tokens.find_or_initialize_by(value: notification_token_params[:token])
-    if @notification_token.save
-      render json: {}, status: :created
-    else
-      render_error(:unprocessable_entity, @notification_token.errors.full_messages.to_sentence)
+      render json: { errors: current_user.errors }, status: :unprocessable_entity
     end
   end
 
@@ -27,13 +15,5 @@ class Api::V1::UsersController < Api::BaseController
 
   def user_params
     params.require(:user).permit(:name, :mobile, :profile_picture, :lat, :lng)
-  end
-
-  def set_user
-    @user = User.find_by!(id: params[:id])
-  end
-
-  def notification_token_params
-    params.require(:user).permit(:token)
   end
 end

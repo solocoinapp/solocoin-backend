@@ -23,7 +23,7 @@ RSpec.describe 'Sessions' do
     post(api_v1_sessions_path, headers: headers, params: params, as: :json)
   end
 
-  describe 'POST /api/v1/sessions/start' do
+  describe 'POST /api/v1/sessions' do
     context 'When user is not authenticated' do
       let(:headers) { {} }
 
