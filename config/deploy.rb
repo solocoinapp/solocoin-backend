@@ -2,7 +2,7 @@
 lock '3.4.1'
 
 set :application, 'coronago'
-set :repo_url, 'git@github.com:arbob/Coronago-backend.git'
+set :repo_url, 'git@github.com:coronagoapp/coronago-backend.git'
 
 # Default branch is :master
 set :branch, :master
