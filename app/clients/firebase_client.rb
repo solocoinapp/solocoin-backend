@@ -8,7 +8,7 @@ module Clients
       get_info: "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=#{ENV['firebase_admin_api_key']}"
     }.freeze
 
-    def info_exists?(token:, mobile:)
+    def info_exists?(token:, country_code:, mobile:)
       response = HTTParty.post(
         URLS[:get_info],
         body: { idToken: token }
@@ -27,7 +27,7 @@ module Clients
     def success?(response)
       response.success? &&
         Array(response['users']).any? &&
-        response['users'].first['phoneNumber'] == "+91#{mobile}"
+        response['users'].first['phoneNumber'] == "#{country_code}#{mobile}"
     end
   end
 end

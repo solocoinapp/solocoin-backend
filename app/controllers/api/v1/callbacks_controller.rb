@@ -1,6 +1,6 @@
 class Api::V1::CallbacksController < Api::BaseController
   skip_before_action :authenticate_with_token
-  before_action :verify_firebase_token, :validate_mobile_number, :validate_uid, :validate_id_token
+  before_action :verify_firebase_token, :validate_country_code, :validate_mobile_number, :validate_uid, :validate_id_token
   before_action :validate_name, only: :mobile_sign_up
 
   def mobile_login
@@ -12,7 +12,7 @@ class Api::V1::CallbacksController < Api::BaseController
     @user = User.onboard_from_mobile(mobile_provider_params)
 
     if @user.valid?
-      render_succes
+      render_success
     else
       @error_message = t('callbacks.oauth_failure')
       logger.error("User or identity creation failed. errors: #{@user.errors.full_messages}")
@@ -23,9 +23,16 @@ class Api::V1::CallbacksController < Api::BaseController
   private
 
   def verify_firebase_token
-    unless Clients::FirebaseClient.instance.info_exists?(mobile_provider_params[:id_token], mobile_provider_params[:mobile])
+    unless Clients::FirebaseClient.instance.info_exists?(mobile_provider_params[:id_token],
+                                                         mobile_provider_params[:country_code],
+                                                         mobile_provider_params[:mobile])
       render json: { error: t('callbacks.provider_token_verification_failure') }, status: :unprocessable_entity
     end
+  end
+
+  def validate_country_code
+    return if mobile_provider_params[:country_code]
+    render json: { error: t('general.required_field', field: 'Country Code') }, status: :unprocessable_entity
   end
 
   def validate_mobile_number
@@ -59,6 +66,6 @@ class Api::V1::CallbacksController < Api::BaseController
   end
 
   def mobile_provider_params
-    params.require(:user).permit(:provider, :uid, :mobile, :name, :id_token)
+    params.require(:user).permit(:provider, :uid, :country_code, :mobile, :name, :id_token)
   end
 end
