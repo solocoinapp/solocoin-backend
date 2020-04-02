@@ -30,6 +30,7 @@ class Api::V1::SessionsController < Api::BaseController
   def after_terminate_session(session)
     Sessions::Rewards.reward(session)
     Sessions::WalletTransaction.create(session)
+    Sessions::Duration.update_user_session_duration(current_user, session)
     Wallet::Transactions.update_user_balance(current_user, session.rewards)
   end
 end
