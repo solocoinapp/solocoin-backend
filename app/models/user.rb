@@ -37,6 +37,7 @@ class User < ApplicationRecord
       if geo = results.first
         user.city = geo.city
         user.country_code = geo.country_code
+        user.country_name = geo.country
       end
     rescue => e
       report_exception(e)
