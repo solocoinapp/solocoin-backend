@@ -25,7 +25,7 @@ RSpec.describe 'LeaderBoard', type: :request do
       end
 
       context 'when user is in the top list' do
-        let(:user) { FactoryBot.create(:user, wallet_balance: 35.0) }
+        let(:user) { FactoryBot.create(:user, wallet_balance: 35.0, auth_token: 'test_token') }
         let(:expected_response) do
           {
             'top_users' => [
@@ -91,7 +91,7 @@ RSpec.describe 'LeaderBoard', type: :request do
             }
           }
         end
-        let(:user) { FactoryBot.create(:user, wallet_balance: 0.0) }
+        let(:user) { FactoryBot.create(:user, wallet_balance: 0.0, auth_token: 'test_token') }
 
         it 'should return the right list and the right user rank' do
           stub_const("LeaderBoard", LeaderBoard, transfer_nested_constants: true)
