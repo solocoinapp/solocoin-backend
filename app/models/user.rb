@@ -48,7 +48,8 @@ class User < ApplicationRecord
     user = User.find_or_initialize_by(mobile: params[:mobile])
     user.name = params[:name]
     user.identities.find_or_initialize_by(provider: 'mobile', uid: params[:uid])
-    user.save
+    user.save_provider_auth_user
+    user
   end
 
   def password_complexity
@@ -67,7 +68,6 @@ class User < ApplicationRecord
 
   def save_provider_auth_user
     self.email_auth_validations = false
-    skip_confirmation!
     save
   end
 
