@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # Authenticated routes
   mount Sidekiq::Web => '/sidekiq'
 
+  root 'application#health_check'
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       devise_scope :user do
@@ -21,6 +23,7 @@ Rails.application.routes.draw do
         end
       end
 
+      resource :home, only: :index
       resource :user, only: :update do
         get :profile, to: 'users#show'
       end
