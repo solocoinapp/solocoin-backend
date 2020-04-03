@@ -11,7 +11,7 @@ module Api
       rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
       rescue_from ActiveRecord::RecordInvalid do |exception|
-        render_form_validation_errors(exception.record)
+        render_validation_errors(exception.record)
       end
     end
 
@@ -19,7 +19,7 @@ module Api
       render_error(:not_found, I18n.t('general.not_found'))
     end
 
-    def render_form_validation_errors(record)
+    def render_validation_errors(record)
       render_error(:unprocessable_entity, I18n.t('general.validation_failed'), record.errors)
     end
 
@@ -28,8 +28,8 @@ module Api
     end
 
     def internal_server_error(exception)
-      log_and_report(exception, {params: params.to_json, request_body: request.body.to_json,
-                                 current_user_id: current_user.id}, 'web')
+      log_and_report(exception, {params: params.try(:to_json), request_body: request.try(:body).try(:to_json),
+                                 current_user_id: current_user.try(:id)}, 'web')
       render_error(:internal_server_error, I18n.t('general.something_went_wrong'))
     end
 
