@@ -38,3 +38,6 @@ en:
     csrf_token_expired: 'Oops, looks like you have stayed too long on that page before submitting, please try again.'
     required_field: "%{field} can not be blank"
     invalid_value: "%{field} is not valid"
+  callbacks:
+    provider_token_verification_failure: 'There is an issue while logging you in. Please try again and contact support if issue persists'
+
