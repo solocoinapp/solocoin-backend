@@ -11,7 +11,7 @@ module CoronaGo
   class Application < Rails::Application
     include LogHelpers
     # Initialize configuration defaults for originally generated Rails version.
-    config.time_zone = 'Asia/Kolkata'
+    config.time_zone = 'UTC'
     config.load_defaults 5.2
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
