@@ -14,9 +14,7 @@ class Api::V1::CallbacksController < Api::BaseController
     if @user.valid?
       render_success
     else
-      @error_message = t('callbacks.oauth_failure')
-      logger.error("User or identity creation failed. errors: #{@user.errors.full_messages}")
-      render_failure
+      render_validation_errors(@user)
     end
   end
 
@@ -66,6 +64,6 @@ class Api::V1::CallbacksController < Api::BaseController
   end
 
   def mobile_provider_params
-    params.require(:user).permit(:provider, :uid, :country_code, :mobile, :name, :id_token)
+    params.require(:user).permit(:uid, :country_code, :mobile, :name, :id_token)
   end
 end
