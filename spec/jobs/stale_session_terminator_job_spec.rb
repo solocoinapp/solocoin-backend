@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'SessionTerminatorJob' do
+RSpec.describe 'StaleSessionTerminatorJob' do
   let(:now) { Time.parse('01/01/2020 10:00:00 UTC') }
   before { Timecop.freeze(now) }
   after { Timecop.return }
@@ -20,7 +20,7 @@ RSpec.describe 'SessionTerminatorJob' do
     end
 
     it 'should terminate them' do
-      SessionTerminatorJob.perform_async
+      StaleSessionTerminatorJob.perform_async
 
       expect(stale_session.reload.status).to eq('done')
       expect(stale_session.reload.end_time).to eq(11.minutes.ago + 10.minutes)

@@ -4,6 +4,6 @@
   - [default, 3]
   - [low, 1]
 :schedule:
-  session_terminator:
+  stale_session_terminator:
     every: '1m'
-    class: 'SessionTerminatorJob'
+    class: 'StaleSessionTerminatorJob'

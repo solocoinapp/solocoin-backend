@@ -1,4 +1,4 @@
-class SessionTerminatorJob < ApplicationJob
+class StaleSessionTerminatorJob < ApplicationJob
   include Sidekiq::Worker
   sidekiq_options queue: 'default'
 
