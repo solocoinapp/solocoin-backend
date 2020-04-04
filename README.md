@@ -58,7 +58,7 @@ bundle exec rails db:setup db:seed
 ```
 ### Create data for local environment
 
-This will setup data for your local development and testing, look the data [here](https://github.com/coronago/solocoin-backend/blob/3f19d53637a53f660738f2671c5fb4ab17529fef/lib/tasks/development_data_seed.rake#L1) to start using it.
+This will setup data for your local development and testing, look the data [here](https://github.com/coronagoapp/solocoin-backend/blob/master/lib/tasks/development_data_seed.rake) to start using it.
 
 ```shell
 bundle exec rails development_tasks:seed_dev_data
@@ -103,6 +103,6 @@ cap production deploy
 ```
 ## How to contribute?
 
-* Look for un-assigned issues [here](https://github.com/coronago/solocoin-backend/issues?q=is%3Aopen+is%3Aissue+no%3Aassignee)
+* Look for un-assigned issues [here](https://github.com/coronagoapp/solocoin-backend/issues?q=is%3Aopen+is%3Aissue+no%3Aassignee)
 * Ask questions and clarifications by commenting on the issue
 * Implement the feature/fix and open a pull request
