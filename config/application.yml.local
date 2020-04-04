@@ -17,7 +17,7 @@ sidekiq_web_password: "sidkiq@123"
 s3_access_key_id: ""
 s3_secret_access_key: ""
 s3_region: ""
-s3_bucket_name: "coronago-local-images"
+s3_bucket_name: "solocoin-local-images"
 
 # Firebase
 firebase_admin_api_key: "<change-me>"

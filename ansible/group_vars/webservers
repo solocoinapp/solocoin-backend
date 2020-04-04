@@ -10,7 +10,7 @@ swap_file_path: /swapfile
 swap_file_size_kb: 1024
 
 # General settings
-deploy_app_name: coronago
+deploy_app_name: solocoin
 deploy_dir: /home/deploy/
 deploy_user: deploy
 deploy_password: "{{ deploy_password }}"
