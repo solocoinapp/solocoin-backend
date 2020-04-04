@@ -5,6 +5,14 @@ class Api::V1::SessionsController < Api::BaseController
     render json: @session, status: :created
   end
 
+  def ping
+    if current_user.active_session&.extend_ping
+      render json: {}, status: :accepted
+    else
+      render json: {}, status: :not_found
+    end
+  end
+
   private
 
   def session_params

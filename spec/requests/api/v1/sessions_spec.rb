@@ -15,15 +15,72 @@ end
 RSpec.describe 'Sessions' do
   let(:user) { FactoryBot.create(:user) }
   let(:headers) { { Authorization: "Bearer #{user.auth_token}" } }
-  let(:params) { { session: { type: 'home' } } }
-  let(:json_response) { response.parsed_body.with_indifferent_access }
-  let(:in_progress_session) { Session.find(json_response[:id]) }
 
-  before :example do
-    post(api_v1_sessions_path, headers: headers, params: params, as: :json)
+  describe 'PUT /api/v1/sessions/ping' do
+    context 'when is not authenticated' do
+      it 'should return 401' do
+        put ping_api_v1_sessions_path, params: {}, headers: {}, as: :json
+        expect(response.status).to be(401)
+      end
+    end
+
+    context 'when is authenticated' do
+      before { Timecop.freeze(now) }
+      after { Timecop.return }
+
+      let(:now) { Time.parse('01/01/2020 10:00:00 UTC') }
+
+      context 'when user has an active session' do
+        let!(:session) do
+          FactoryBot.create(:session, user: user, end_time: now, status: 'in-progress')
+        end
+
+        it 'should extend end_time correctly' do
+          later = now + 5.minutes
+          Timecop.freeze(later)
+
+          expect {
+            put ping_api_v1_sessions_path, params: {}, headers: headers, as: :json
+          }.to change { session.reload.end_time }.from(now).to(later)
+        end
+      end
+
+      context 'when user does not have an active session' do
+        let!(:session) do
+          FactoryBot.create(:session, user: user, end_time: now, status: 'done')
+        end
+
+        it 'should return not found' do
+          put ping_api_v1_sessions_path, params: {}, headers: headers, as: :json
+          expect(response.status).to be(404)
+        end
+      end
+
+      context 'when user does not have an active session' do
+        it 'should return not found' do
+          put ping_api_v1_sessions_path, params: {}, headers: headers, as: :json
+          expect(response.status).to be(404)
+        end
+      end
+
+      context 'when user does not have any sessions' do
+        it 'should return not found' do
+          put ping_api_v1_sessions_path, params: {}, headers: headers, as: :json
+          expect(response.status).to be(404)
+        end
+      end
+    end
   end
 
   describe 'POST /api/v1/sessions' do
+    let(:params) { { session: { type: 'home' } } }
+    let(:json_response) { response.parsed_body.with_indifferent_access }
+    let(:in_progress_session) { Session.find(json_response[:id]) }
+
+    before :example do
+      post(api_v1_sessions_path, headers: headers, params: params, as: :json)
+    end
+
     context 'When user is not authenticated' do
       let(:headers) { {} }
 
