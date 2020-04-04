@@ -13,13 +13,13 @@ resource "aws_elb" "web-elb" {
     lb_protocol       = "http"
   }
 
-  #listener {
-  #  instance_port      = 80
-  #  instance_protocol  = "http"
-  #  lb_port            = 443
-  #  lb_protocol        = "https"
-  #  ssl_certificate_id = "arn:aws:acm:ap-northeast-2:575454090281:certificate/301cb342-a8ba-4061-951a-84bd83893c9b"
-  #}
+  listener {
+    instance_port      = 80
+    instance_protocol  = "http"
+    lb_port            = 443
+    lb_protocol        = "https"
+    ssl_certificate_id = data.aws_acm_certificate.solocoin_cert.arn
+  }
 
   health_check {
     healthy_threshold   = 2
