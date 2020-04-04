@@ -11,7 +11,7 @@ variable "aws_amis" {
 
 variable "availability_zones" {
   default     = "ap-south-1a,ap-south-1b,ap-south-1c"
-  description = "List of availability zones, use AWS CLI to find your "
+  description = "List of availability zones"
 }
 
 variable "key_name" {

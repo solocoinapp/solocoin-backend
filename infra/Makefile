@@ -1,6 +1,6 @@
 .PHONY: tf.init tf.plan tf.apply
 
-RESOURCE="Coronago App"
+RESOURCE="Solocoin App"
 
 tf.init:
 	@echo "Initializing ${RESOURCE} configuration"

@@ -4,19 +4,11 @@ resource "aws_security_group" "app_servers" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    description = "Port 80 from world to application servers"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "Port 443 from world to application servers"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description     = "Port 80 from ELB to application servers"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [data.aws_security_group.elb.id]
   }
 
   ingress {
