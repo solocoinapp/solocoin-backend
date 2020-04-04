@@ -28,7 +28,7 @@ Rails.application.routes.draw do
         get :profile, to: 'users#show'
       end
       resources :notification_tokens, only: :create
-      resources :sessions, only: :create do
+      resources :sessions do
         collection do
           put :ping
         end
