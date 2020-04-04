@@ -23,12 +23,19 @@ RSpec.describe 'StaleSessionTerminatorJob' do
       StaleSessionTerminatorJob.perform_async
 
       expect(stale_session.reload.status).to eq('done')
-      expect(stale_session.reload.end_time).to eq(11.minutes.ago + 10.minutes)
+      expect(stale_session.reload.last_ping_time).to eq(11.minutes.ago)
+      expect(stale_session.reload.end_time).to eq(11.minutes.ago + Session::PING_TIMEOUT_IN_MINUTES.minutes)
+
       expect(another_stale_session.reload.status).to eq('done')
-      expect(another_stale_session.reload.end_time).to eq(15.minutes.ago + 10.minutes)
+      expect(another_stale_session.reload.last_ping_time).to eq(15.minutes.ago)
+      expect(another_stale_session.reload.end_time).to eq(15.minutes.ago + Session::PING_TIMEOUT_IN_MINUTES.minutes)
+
       expect(valid_session.reload.status).to eq('in-progress')
-      expect(valid_session.reload.end_time).to eq(nil)
+      expect(valid_session.reload.last_ping_time).to eq(9.minutes.ago)
+      expect(valid_session.reload.end_time).to be_nil
+
       expect(lasped_session.reload.status).to eq('done')
+      expect(lasped_session.reload.last_ping_time).to eq(11.minutes.ago)
       expect(lasped_session.reload.end_time).to eq(11.minutes.ago)
     end
   end
