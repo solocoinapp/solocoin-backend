@@ -1,4 +1,4 @@
-# Corona Go Backend Infrastructure
+# SoloCoin  Backend Infrastructure
 
 ### Autoscaling Group
 

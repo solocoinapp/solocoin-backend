@@ -1,14 +1,14 @@
 # config valid only for current version of Capistrano
 lock '3.4.1'
 
-set :application, 'coronago'
-set :repo_url, 'git@github.com:coronagoapp/coronago-backend.git'
+set :application, 'solocoin'
+set :repo_url, 'git@github.com:coronagoapp/solocoin-backend.git'
 
 # Default branch is :master
 set :branch, :master
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/home/deploy/coronago'
+set :deploy_to, '/home/deploy/solocoin'
 
 # Default value for :scm is :git
 set :scm, :git
