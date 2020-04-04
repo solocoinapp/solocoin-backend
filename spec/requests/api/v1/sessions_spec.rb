@@ -1,17 +1,5 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'done session' do
-  let(:in_progress_session) { Session.find(json_response[:id]) }
-
-  it 'sets session status as done' do
-    expect(json_response[:status]).to eq('in-progress')
-    expect {
-      post(api_v1_sessions_path, headers: headers, params: params, as: :json)
-      in_progress_session.reload
-    }.to change(in_progress_session, :status).from('in-progress').to('done')
-  end
-end
-
 RSpec.shared_examples 'no active session' do
   context 'when it is home session' do
     let(:params) { { session: { type: 'home' } } }
