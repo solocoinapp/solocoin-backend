@@ -97,6 +97,7 @@ RSpec.describe 'Users', type: :request do
 
         it 'should return the right error response' do
           expected_error_message = {
+            "error" => 'Validation failed',
             "errors" => {
               "name" => [ "is too short (minimum is 3 characters)" ]
             }
