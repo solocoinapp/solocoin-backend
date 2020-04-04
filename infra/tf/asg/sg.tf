@@ -1,7 +1,7 @@
 resource "aws_security_group" "elb" {
   name        = "solocoin-elb-sg"
   description = "Application ELB Security Group"
-  vpc_id      = data.aws_vpc.coronagoapp.id
+  vpc_id      = data.aws_vpc.solocoinapp.id
 
   # HTTP access from anywhere
   ingress {

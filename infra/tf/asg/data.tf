@@ -1,4 +1,4 @@
-data "aws_vpc" "coronagoapp" {
+data "aws_vpc" "solocoinapp" {
   id = var.vpc_id
 }
 

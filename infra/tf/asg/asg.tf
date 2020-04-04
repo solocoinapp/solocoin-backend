@@ -1,6 +1,6 @@
 resource "aws_autoscaling_group" "web-asg" {
   availability_zones   = split(",", var.availability_zones)
-  name                 = "coronagoapp-asg"
+  name                 = "solocoinapp-asg"
   max_size             = var.asg_max
   min_size             = var.asg_min
   desired_capacity     = var.asg_desired
@@ -17,7 +17,7 @@ resource "aws_autoscaling_group" "web-asg" {
 }
 
 resource "aws_launch_configuration" "web-lc" {
-  name          = "coronagoapp-lc"
+  name          = "solocoin-app-lc"
   image_id      = lookup(var.aws_amis, var.aws_region)
   instance_type = var.instance_type
 

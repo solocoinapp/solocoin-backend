@@ -50,6 +50,6 @@ variable "public_subnet_ids" {
 }
 
 variable "vpc_id" {
-  description = "Coronago App VPC"
+  description = "Solocoin App VPC"
   default     = "vpc-053e32e2984ab43ca"
 }
