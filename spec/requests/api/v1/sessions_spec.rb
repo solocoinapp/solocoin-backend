@@ -12,15 +12,39 @@ RSpec.shared_examples 'done session' do
   end
 end
 
+RSpec.shared_examples 'no active session' do
+  context 'when it is home session' do
+    let(:params) { { session: { type: 'home' } } }
+
+    it 'should create new home session' do
+      post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+      json_response = response.parsed_body.with_indifferent_access
+      expect(json_response[:status]).to eq('in-progress')
+      expect(json_response[:session_type]).to eq('home')
+    end
+  end
+
+  context 'when it is away session' do
+    let(:params) { { session: { type: 'away' } } }
+
+    it 'should create new away session' do
+      post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+      json_response = response.parsed_body.with_indifferent_access
+      expect(json_response[:status]).to eq('in-progress')
+      expect(json_response[:session_type]).to eq('away')
+    end
+  end
+end
+
 RSpec.describe 'Sessions' do
   let(:user) { FactoryBot.create(:user) }
   let(:headers) { { Authorization: "Bearer #{user.auth_token}" } }
 
-  describe 'PUT /api/v1/sessions/ping' do
+  describe 'POST /api/v1/sessions/ping' do
     context 'when is not authenticated' do
       it 'should return 401' do
-        put ping_api_v1_sessions_path, params: {}, headers: {}, as: :json
-        expect(response.status).to be(401)
+        post '/api/v1/sessions/ping', params: {}, headers: {}, as: :json
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -32,17 +56,60 @@ RSpec.describe 'Sessions' do
 
       context 'when user has an active session' do
         let!(:session) do
-          FactoryBot.create(:session, user: user, last_ping_time: now, status: 'in-progress', session_type: 'home')
+          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in-progress', session_type: 'home')
         end
-        let(:params) { { session: { type: 'home' } } }
 
-        it 'should extend last_ping_time correctly' do
-          later = now + 5.minutes
-          Timecop.freeze(later)
+        it 'should return 202' do
+          post '/api/v1/sessions/ping', params: { session: { type: 'home' } }, headers: headers, as: :json
+          expect(response).to have_http_status(202)
+        end
 
-          expect {
-            put ping_api_v1_sessions_path, params: params, headers: headers, as: :json
-          }.to change { session.reload.last_ping_time }.from(now).to(later)
+        context 'when incoming session type is same as active session' do
+          let(:params) { { session: { type: 'home' } } }
+
+          it 'should extend last_ping_time correctly' do
+            later = now + 5.minutes
+            Timecop.freeze(later)
+
+            expect {
+              post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+            }.to change { session.reload.last_ping_time }.from(now).to(later)
+          end
+        end
+
+        context 'when incoming session type is not same as active session' do
+          let(:params) { { session: { type: 'away' } } }
+
+          it 'should terminate current session' do
+            expect {
+              post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+            }.to change { session.reload.status }.from('in-progress').to('done')
+          end
+
+          it 'should extend last_ping_time for current session' do
+            later = now + 5.minutes
+            Timecop.freeze(later)
+
+            expect {
+              post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+            }.to change { session.reload.last_ping_time }.from(now).to(later)
+          end
+
+          it 'should update end_time for current session' do
+            later = now + 5.minutes
+            Timecop.freeze(later)
+
+            expect {
+              post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+            }.to change { session.reload.end_time }.from(nil).to(later)
+          end
+
+          it 'should create new session' do
+            post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+            json_response = response.parsed_body.with_indifferent_access
+            expect(json_response[:status]).to eq('in-progress')
+            expect(json_response[:session_type]).to eq('away')
+          end
         end
       end
 
@@ -51,117 +118,68 @@ RSpec.describe 'Sessions' do
           FactoryBot.create(:session, user: user, last_ping_time: now, end_time: now, status: 'done')
         end
 
-        it 'should return not found' do
-          put ping_api_v1_sessions_path, params: {}, headers: headers, as: :json
-          expect(response.status).to be(404)
-        end
+        it_should_behave_like 'no active session'
       end
 
       context 'when user does not have any sessions' do
-        it 'should return not found' do
-          put ping_api_v1_sessions_path, params: {}, headers: headers, as: :json
-          expect(response.status).to be(404)
+        it_should_behave_like 'no active session'
+      end
+
+      context 'When ending home session' do
+        let!(:session) do
+          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in-progress', session_type: 'home')
+        end
+        let!(:params) { { session: { type: 'away' } } }
+
+        it 'awards 1 point for every 10 minutes' do
+          Timecop.freeze(session.start_time + 20.minutes)
+
+          expect {
+            post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+          }.to change { session.reload.rewards }.from(0).to(2)
+        end
+
+        it 'creates wallet transaction entry' do
+          expect {
+            post('/api/v1/sessions/ping', headers: headers, params: params, as: :json)
+          }.to change(WalletTransaction, :count)
+        end
+
+        it 'updates user wallet_balance' do
+          Timecop.freeze(session.start_time + 30.minutes) do
+            new_balance = user.wallet_balance + 3
+            post('/api/v1/sessions/ping', headers: headers, params: params, as: :json)
+            expect(user.reload.wallet_balance.to_s).to eq(new_balance.to_s)
+          end
         end
       end
-    end
-  end
 
-  describe 'POST /api/v1/sessions' do
-    let(:params) { { session: { type: 'home' } } }
-    let(:json_response) { response.parsed_body.with_indifferent_access }
-    let(:in_progress_session) { Session.find(json_response[:id]) }
+      context 'When ending away session' do
+        let!(:session) do
+          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in-progress', session_type: 'away')
+        end
+        let(:params) { { session: { type: 'home' } } }
 
-    before :example do
-      post(api_v1_sessions_path, headers: headers, params: params, as: :json)
-    end
+        it 'deducts 10 points for every 10 minutes' do
+          Timecop.freeze(session.start_time + 30.minutes)
 
-    context 'When user is not authenticated' do
-      let(:headers) { {} }
-
-      it 'responds with status code 401' do
-        expect(response).to have_http_status(401)
-      end
-    end
-
-    it 'responds with status code 201' do
-      expect(response).to have_http_status(201)
-    end
-
-    it 'starts session' do
-      expect(json_response[:status]).to eq('in-progress')
-    end
-
-    context 'When user is at home/isolation' do
-      it 'sets user session type as at home' do
-        expect(json_response[:session_type]).to eq('home')
-      end
-    end
-
-    context 'When user is away' do
-      let(:params) { { session: { type: 'away' } } }
-
-      it 'sets user session type as away' do
-        expect(json_response[:session_type]).to eq('away')
-      end
-    end
-
-    context 'When ending home session' do
-      it_should_behave_like 'done session'
-
-      it 'awards 1 points for every 10 minutes' do
-        Timecop.freeze(in_progress_session.start_time + 20.minutes) do
-          post(api_v1_sessions_path, headers: headers, params: params, as: :json)
-          in_progress_session.reload
-          expect(in_progress_session.rewards).to eq(2)
+          expect {
+            post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+          }.to change { session.reload.rewards }.from(0).to(-30)
         end
       end
-    end
 
-    context 'When ending away session' do
-      let(:params) { { session: { type: 'away' } } }
-
-      it_should_behave_like 'done session'
-
-      it 'deducts 10 points for every 10 minutes' do
-        Timecop.freeze(in_progress_session.start_time + 30.minutes) do
-          post(api_v1_sessions_path, headers: headers, params: params, as: :json)
-          in_progress_session.reload
-          expect(in_progress_session.rewards).to eq(-30)
+      context 'When there is an error when processing session' do
+        let!(:session) do
+          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in-progress', session_type: 'home')
         end
-      end
-    end
 
-    context 'When a user has existing session' do
-      it 'is terminated before a new session is created' do
-        expect(in_progress_session.status).to eq('in-progress')
-        post(api_v1_sessions_path, headers: headers, params: params, as: :json)
-        in_progress_session.reload
-        expect(in_progress_session.status).to eq('done')
-      end
-    end
-
-    context 'When there is an error when processing session' do
-      it 'does not commit any change' do
-        expect(in_progress_session.status).to eq('in-progress')
-        allow(Sessions::Rewards).to receive(:calculate).and_raise(TypeError)
-        post(api_v1_sessions_path, headers: headers, params: params, as: :json)
-        in_progress_session.reload
-        expect(in_progress_session.status).to eq('in-progress')
-      end
-    end
-
-    it 'creates wallet transaction entry' do
-      expect {
-        post(api_v1_sessions_path, headers: headers, params: params, as: :json)
-      }.to change(WalletTransaction, :count)
-    end
-
-    it 'updates user wallet_balance' do
-      Timecop.freeze(in_progress_session.start_time + 30.minutes) do
-        new_balance = user.wallet_balance + 3
-        post(api_v1_sessions_path, headers: headers, params: params, as: :json)
-        user.reload
-        expect(user.wallet_balance.to_s).to eq(new_balance.to_s)
+        it 'does not commit any change' do
+          expect(session.status).to eq('in-progress')
+          allow(Sessions::Rewards).to receive(:calculate).and_raise(TypeError)
+          post('/api/v1/sessions/ping', headers: headers, params: { session: { type: 'home' } }, as: :json)
+          expect(session.reload.status).to eq('in-progress')
+        end
       end
     end
   end
