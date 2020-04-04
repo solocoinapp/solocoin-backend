@@ -5,7 +5,10 @@ RSpec.shared_examples 'no active session' do
     let(:params) { { session: { type: 'home' } } }
 
     it 'should create new home session' do
-      post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+      session_count = user.sessions.count
+      expect {
+        post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+      }.to change { user.sessions.count }.from(session_count).to(session_count + 1)
       json_response = response.parsed_body.with_indifferent_access
       expect(json_response[:status]).to eq('in-progress')
       expect(json_response[:session_type]).to eq('home')
@@ -16,7 +19,10 @@ RSpec.shared_examples 'no active session' do
     let(:params) { { session: { type: 'away' } } }
 
     it 'should create new away session' do
-      post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+      session_count = user.sessions.count
+      expect {
+        post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
+      }.to change { user.sessions.count }.from(session_count).to(session_count + 1)
       json_response = response.parsed_body.with_indifferent_access
       expect(json_response[:status]).to eq('in-progress')
       expect(json_response[:session_type]).to eq('away')
