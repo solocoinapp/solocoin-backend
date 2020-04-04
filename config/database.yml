@@ -5,18 +5,18 @@ default: &default
 
 development:
   <<: *default
-  database: coronago_development
+  database: solocoin_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: coronago_test
+  database: solocoin_test
 
 production:
   <<: *default
-  database: coronago_production
+  database: solocoin_production
   host: <%= ENV["database_host"] %>
   username: <%= ENV["database_username"] %>
   password: <%= ENV["database_password"] %>
