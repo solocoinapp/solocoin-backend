@@ -7,7 +7,7 @@ require_relative '../app/helpers/log_helpers'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module CoronaGo
+module SoloCoin
   class Application < Rails::Application
     include LogHelpers
     # Initialize configuration defaults for originally generated Rails version.

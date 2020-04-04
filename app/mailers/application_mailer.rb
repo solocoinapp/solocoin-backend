@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'CoronaGo <admin@coronago.co>', reply_to: 'admin@coronago.co'
+  default from: 'SoloCoin <admin@solocoin.app>', reply_to: 'admin@solocoin.app'
   layout 'mailer'
 end

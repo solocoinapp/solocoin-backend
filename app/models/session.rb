@@ -5,6 +5,6 @@ class Session < ApplicationRecord
   belongs_to :user
 
   def extend_ping
-    update_attribute(:end_time, Time.now.utc)
+    update_attribute(:last_ping_time, Time.now.utc)
   end
 end

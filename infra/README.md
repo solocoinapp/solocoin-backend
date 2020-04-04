@@ -1,4 +1,4 @@
-# Corona Go Backend Infrastructure
+# SoloCoin  Backend Infrastructure
 
 This folder contains configuration managament code for the application
 

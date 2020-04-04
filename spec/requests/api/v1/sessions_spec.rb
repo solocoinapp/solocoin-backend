@@ -32,31 +32,25 @@ RSpec.describe 'Sessions' do
 
       context 'when user has an active session' do
         let!(:session) do
-          FactoryBot.create(:session, user: user, end_time: now, status: 'in-progress')
+          FactoryBot.create(:session, user: user, last_ping_time: now, status: 'in-progress', session_type: 'home')
         end
+        let(:params) { { session: { type: 'home' } } }
 
-        it 'should extend end_time correctly' do
+        it 'should extend last_ping_time correctly' do
           later = now + 5.minutes
           Timecop.freeze(later)
 
           expect {
-            put ping_api_v1_sessions_path, params: {}, headers: headers, as: :json
-          }.to change { session.reload.end_time }.from(now).to(later)
+            put ping_api_v1_sessions_path, params: params, headers: headers, as: :json
+          }.to change { session.reload.last_ping_time }.from(now).to(later)
         end
       end
 
       context 'when user does not have an active session' do
         let!(:session) do
-          FactoryBot.create(:session, user: user, end_time: now, status: 'done')
+          FactoryBot.create(:session, user: user, last_ping_time: now, end_time: now, status: 'done')
         end
 
-        it 'should return not found' do
-          put ping_api_v1_sessions_path, params: {}, headers: headers, as: :json
-          expect(response.status).to be(404)
-        end
-      end
-
-      context 'when user does not have an active session' do
         it 'should return not found' do
           put ping_api_v1_sessions_path, params: {}, headers: headers, as: :json
           expect(response.status).to be(404)

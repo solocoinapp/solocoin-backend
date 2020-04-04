@@ -16,7 +16,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
-  # with default "from" parameter. ler_sender = 'CoronaGo <admin@coronagoapp.com>'
+  # with default "from" parameter. ler_sender = 'SoloCoin <admin@solocoin.app>'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
