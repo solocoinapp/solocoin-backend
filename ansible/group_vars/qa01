@@ -1,7 +1,6 @@
 ---
 host: solocoin.app
 deploy_server_hostname: solocoin.app
-cache_server_url: ""
 s3_region: us-east-1
 s3_bucket_name: ''
 s3_access_key_id: ''
