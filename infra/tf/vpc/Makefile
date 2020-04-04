@@ -12,4 +12,4 @@ tf.plan:
 
 tf.apply:
 	echo "Applying ${RESOURCE} configuration"
-	terraform apply
+	terraform apply -auto-approve

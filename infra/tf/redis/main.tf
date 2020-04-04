@@ -1,13 +1,13 @@
 provider "aws" {
-  region = "${var.aws_region}"
+  region = "ap-south-1"
 }
 
 terraform {
   backend "s3" {
-    key            = "tf/redis/v1"
-    bucket         = "solocoinapp-backend"
-    dynamodb_table = "solocoinapp-backend"
+    bucket         = "solocoin-tfstate"
+    key            = "redis/v1/terraform.tfstate"
     region         = "ap-south-1"
-    profile        = "default"
+    dynamodb_table = "solocoin-locks"
+    encrypt        = true
   }
 }
