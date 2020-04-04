@@ -1,6 +1,6 @@
 .PHONY: tf.init tf.plan tf.apply
 
-RESOURCE="redis"
+RESOURCE="Auto Scaling Group"
 
 tf.init:
 	@echo "Initializing ${RESOURCE} configuration"

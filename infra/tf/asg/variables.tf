@@ -15,7 +15,7 @@ variable "availability_zones" {
 }
 
 variable "key_name" {
-  default     = "deployer"
+  default     = "qa01_04_apr_2020"
   description = "Name of AWS key pair"
 }
 
@@ -40,16 +40,16 @@ variable "asg_desired" {
 }
 
 variable "private_subnet_ids" {
-  description  = "Private subnet IDs to launch in"
-  default      = ["subnet-xxxxxxx","subnet-yyyyyyyyyy","subnet-zzzzzzzzzzzzz"]
+  description = "Private subnet IDs to launch in"
+  default     = ["subnet-0f5290ade80c3c4e4", "subnet-0a8307086c0b8f14b", "subnet-0181450a4d765c16d"]
 }
 
 variable "public_subnet_ids" {
-  description  = "Public subnet IDs to launch in"
-  default      = ["subnet-00000000000"]
+  description = "Public subnet IDs to launch in"
+  default     = ["subnet-0684c3096b01414c2"]
 }
 
 variable "vpc_id" {
- description  = "The VPC ID to launch with"
- default      = "vpc-11111111111111"
+  description = "Coronago App VPC"
+  default     = "vpc-053e32e2984ab43ca"
 }

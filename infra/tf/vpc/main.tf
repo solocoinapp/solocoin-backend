@@ -1,18 +1,11 @@
-variable "aws_region" {
-  description = "The AWS region to create things in."
-  default     = "ap-south-1"
-}
-
-provider "aws" {
-  region = "ap-south-1"
-}
+provider "aws" {}
 
 terraform {
   backend "s3" {
-    key            = "tf/vpc/v1"
-    bucket         = "coronagoapp-backend"
-    dynamodb_table = "coronagoapp-backend"
+    bucket         = "solocoin-tfstate"
+    key            = "vpc/v1/terraform.tfstate"
     region         = "ap-south-1"
-    profile        = "default"
+    dynamodb_table = "solocoin-locks"
+    encrypt        = true
   }
 }
