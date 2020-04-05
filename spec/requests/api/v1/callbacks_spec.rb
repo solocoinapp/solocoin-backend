@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Callbacks', type: :request do
+  before do
+    ENV.stub(:[])
+    ENV.stub(:[]).with('firebase_admin_api_key').and_return('')
+  end
+
   describe 'user login' do
     context 'with valid firebase token' do
       let(:params) do
