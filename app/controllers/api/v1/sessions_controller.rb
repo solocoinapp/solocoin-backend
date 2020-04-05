@@ -17,11 +17,14 @@ class Api::V1::SessionsController < Api::BaseController
 
   def create_params
     current_time = Time.now.utc
-    { session_type: session_params[:type],
+    {
+      session_type: session_params[:type],
       user: current_user,
       status: 0,
       start_time: current_time,
-      last_ping_time: current_time }
+      end_time: current_time,
+      last_ping_time: current_time
+    }
   end
 
   def create_session_for_user
