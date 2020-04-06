@@ -22,7 +22,6 @@ class Api::V1::SessionsController < Api::BaseController
       user: current_user,
       status: 0,
       start_time: current_time,
-      end_time: current_time,
       last_ping_time: current_time
     }
   end
