@@ -1,5 +1,5 @@
-resource "aws_elasticache_cluster" "solocoinapp_redis" {
-  cluster_id           = "solocoinapp-redis"
+resource "aws_elasticache_cluster" "redis_cluster" {
+  cluster_id           = "${var.environment}-redis"
   engine               = "redis"
   node_type            = "cache.t2.micro"
   num_cache_nodes      = 1

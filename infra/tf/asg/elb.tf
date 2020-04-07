@@ -1,5 +1,5 @@
 resource "aws_elb" "web-elb" {
-  name = "solocoin-app-elb"
+  name = "${var.environment}-app-elb"
 
   # The same availability zone as our instances
   #availability_zones = split(",", var.availability_zones)
