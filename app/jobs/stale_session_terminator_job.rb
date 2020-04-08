@@ -4,8 +4,10 @@ class StaleSessionTerminatorJob < ApplicationJob
 
   def perform
     Session.where(status: 'in_progress')
-           .where("? - last_ping_time >= INTERVAL '#{Session::PING_TIMEOUT_IN_MINUTES} minutes'", Time.now.utc).in_batches do |batch|
-      batch.update_all("end_time=last_ping_time + (interval '#{Session::PING_TIMEOUT_IN_MINUTES} minutes'),status=#{Session.statuses['done']}")
+           .where("? - last_ping_time >= INTERVAL '#{Session::PING_TIMEOUT_IN_MINUTES} minutes'", Time.now.utc).each do |session|
+      Sessions.end_session(session,
+                           auto_terminate: true,
+                           end_time: session.last_ping_time + Session::PING_TIMEOUT_IN_MINUTES.minutes)
     end
   end
 end
