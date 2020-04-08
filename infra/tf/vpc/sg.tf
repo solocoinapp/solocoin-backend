@@ -50,3 +50,24 @@ resource "aws_security_group" "databases" {
     Name = "backend"
   }
 }
+
+
+resource "aws_security_group" "redis_clusters" {
+  name        = "redis_clusters"
+  description = "Allow traffic from application SG to redis_clusters"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    description     = "Port 6379 from application servers to redis_clusters"
+    from_port       = 6379
+    to_port         = 6379
+    protocol        = "tcp"
+    cidr_blocks     = [module.vpc.vpc_cidr_block]
+    security_groups = [aws_security_group.app_servers.id]
+  }
+
+  tags = {
+    Name = "backend"
+  }
+}
+
