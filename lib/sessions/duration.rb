@@ -11,9 +11,9 @@ module Sessions
     def self.update_user_session_duration(user, session)
       seconds = self.in_seconds(session)
       if session.session_type == 'home'
-        user.update_columns(home_duration_in_seconds: user.home_duration_in_seconds + seconds)
+        user.update!(home_duration_in_seconds: user.home_duration_in_seconds + seconds)
       elsif session.session_type == 'away'
-        user.update_columns(away_duration_in_seconds: user.away_duration_in_seconds + seconds)
+        user.update!(away_duration_in_seconds: user.away_duration_in_seconds + seconds)
       end
     end
   end
