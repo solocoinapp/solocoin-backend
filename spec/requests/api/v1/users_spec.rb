@@ -23,12 +23,13 @@ RSpec.describe 'Users', type: :request do
         {
           "email" => user.email,
           "id" => user.id,
+          "lat" => nil,
+          "lng" => nil,
           "mobile" => user.mobile,
           "name" => user.name,
           "profile_picture_url" => user.profile_picture_url,
           "wallet_balance" => "0.0",
-          "home_duration_in_seconds" => 0,
-          "away_duration_in_seconds" => 0
+          "home_duration_in_seconds" => 0
         }
       end
 

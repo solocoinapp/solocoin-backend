@@ -10,7 +10,7 @@ RSpec.shared_examples 'no active session' do
         post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
       }.to change { user.sessions.count }.from(session_count).to(session_count + 1)
       json_response = response.parsed_body.with_indifferent_access
-      expect(json_response[:status]).to eq('in-progress')
+      expect(json_response[:status]).to eq('in_progress')
       expect(json_response[:session_type]).to eq('home')
     end
   end
@@ -24,7 +24,7 @@ RSpec.shared_examples 'no active session' do
         post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
       }.to change { user.sessions.count }.from(session_count).to(session_count + 1)
       json_response = response.parsed_body.with_indifferent_access
-      expect(json_response[:status]).to eq('in-progress')
+      expect(json_response[:status]).to eq('in_progress')
       expect(json_response[:session_type]).to eq('away')
     end
   end
@@ -50,7 +50,7 @@ RSpec.describe 'Sessions' do
 
       context 'when user has an active session' do
         let!(:session) do
-          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in-progress', session_type: 'home')
+          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in_progress', session_type: 'home')
         end
 
         it 'should return 202' do
@@ -77,7 +77,7 @@ RSpec.describe 'Sessions' do
           it 'should terminate current session' do
             expect {
               post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
-            }.to change { session.reload.status }.from('in-progress').to('done')
+            }.to change { session.reload.status }.from('in_progress').to('done')
           end
 
           it 'should extend last_ping_time for current session' do
@@ -101,7 +101,7 @@ RSpec.describe 'Sessions' do
           it 'should create new session' do
             post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
             json_response = response.parsed_body.with_indifferent_access
-            expect(json_response[:status]).to eq('in-progress')
+            expect(json_response[:status]).to eq('in_progress')
             expect(json_response[:session_type]).to eq('away')
           end
         end
@@ -121,7 +121,7 @@ RSpec.describe 'Sessions' do
 
       context 'When ending home session' do
         let!(:session) do
-          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in-progress', session_type: 'home')
+          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in_progress', session_type: 'home')
         end
         let!(:params) { { session: { type: 'away' } } }
 
@@ -150,7 +150,7 @@ RSpec.describe 'Sessions' do
 
       context 'When ending away session' do
         let!(:session) do
-          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in-progress', session_type: 'away')
+          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in_progress', session_type: 'away')
         end
         let(:params) { { session: { type: 'home' } } }
 
@@ -165,14 +165,14 @@ RSpec.describe 'Sessions' do
 
       context 'When there is an error when processing session' do
         let!(:session) do
-          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in-progress', session_type: 'home')
+          FactoryBot.create(:session, user: user, start_time: now, last_ping_time: now, status: 'in_progress', session_type: 'home')
         end
 
         it 'does not commit any change' do
-          expect(session.status).to eq('in-progress')
+          expect(session.status).to eq('in_progress')
           allow(Sessions::Rewards).to receive(:calculate).and_raise(TypeError)
           post('/api/v1/sessions/ping', headers: headers, params: { session: { type: 'home' } }, as: :json)
-          expect(session.reload.status).to eq('in-progress')
+          expect(session.reload.status).to eq('in_progress')
         end
       end
     end
