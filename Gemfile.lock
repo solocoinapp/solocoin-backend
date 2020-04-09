@@ -252,6 +252,8 @@ GEM
     public_suffix (4.0.3)
     puma (3.12.4)
     raabro (1.1.6)
+    rack-attack (6.2.2)
+      rack (>= 1.0, < 3)
     rack-mini-profiler (1.0.0)
       rack (>= 1.2.0)
     rack-protection (2.0.4)
@@ -412,6 +414,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 3.12)
   rack!
+  rack-attack
   rack-mini-profiler (~> 1.0)
   rails (~> 5.2.4.1)
   rqrcode
