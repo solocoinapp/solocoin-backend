@@ -1,11 +1,11 @@
 module Sessions
   module Duration
     def self.in_minutes(session)
-      ((session.end_time - session.start_time) / 1.minutes).round
+      (((session.end_time || Time.zone.now) - session.start_time) / 1.minutes).round
     end
 
     def self.in_seconds(session)
-      (session.end_time - session.start_time).round
+      ((session.end_time || Time.zone.now) - session.start_time).round
     end
 
     def self.update_user_session_duration(user, session)
