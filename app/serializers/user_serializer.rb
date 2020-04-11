@@ -14,7 +14,8 @@ class UserSerializer < ActiveModel::Serializer
   def wallet_balance
     active_session = object.active_session
     if active_session.present?
-      object.wallet_balance + Sessions::Rewards.calculate('home', Sessions::Duration.in_minutes(active_session))
+      object.wallet_balance + Sessions::Rewards.calculate(active_session.session_type,
+                                                          Sessions::Duration.in_minutes(active_session))
     else
       object.wallet_balance
     end
