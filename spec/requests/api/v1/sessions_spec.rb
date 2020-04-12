@@ -125,12 +125,12 @@ RSpec.describe 'Sessions' do
         end
         let!(:params) { { session: { type: 'away' } } }
 
-        it 'awards 1 point for every 10 minutes' do
+        it 'awards 1 point for every minute' do
           Timecop.freeze(session.start_time + 20.minutes)
 
           expect {
             post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
-          }.to change { session.reload.rewards }.from(0).to(2)
+          }.to change { session.reload.rewards }.from(0).to(20)
         end
 
         it 'creates wallet transaction entry' do
@@ -141,7 +141,7 @@ RSpec.describe 'Sessions' do
 
         it 'updates user wallet_balance' do
           Timecop.freeze(session.start_time + 30.minutes) do
-            new_balance = user.wallet_balance + 3
+            new_balance = user.wallet_balance + 30
             post('/api/v1/sessions/ping', headers: headers, params: params, as: :json)
             expect(user.reload.wallet_balance.to_s).to eq(new_balance.to_s)
           end
@@ -154,12 +154,12 @@ RSpec.describe 'Sessions' do
         end
         let(:params) { { session: { type: 'home' } } }
 
-        it 'deducts 10 points for every 10 minutes' do
+        it 'deducts 10 points for every minute' do
           Timecop.freeze(session.start_time + 30.minutes)
 
           expect {
             post '/api/v1/sessions/ping', params: params, headers: headers, as: :json
-          }.to change { session.reload.rewards }.from(0).to(-30)
+          }.to change { session.reload.rewards }.from(0).to(-300)
         end
       end
 
