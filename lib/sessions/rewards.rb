@@ -1,5 +1,8 @@
 module Sessions
   module Rewards
+    REWARDS_PER_MIN = 1
+    PENALTY_PER_MIN = 10
+
     def self.reward(session)
       minutes = Duration.in_minutes(session)
       rewards = calculate(session.session_type, minutes)
@@ -15,11 +18,11 @@ module Sessions
     end
 
     def self.for_isolation(minutes)
-      (minutes / 10).round
+      (minutes * REWARDS_PER_MIN).round
     end
 
     def self.for_being_away(minutes)
-      -((minutes / 10).round * 10)
+      -(minutes * PENALTY_PER_MIN).round
     end
   end
 end
