@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_04_140723) do
+ActiveRecord::Schema.define(version: 2020_05_10_144711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answers", force: :cascade do |t|
+    t.text "answer_text"
+    t.bigint "question_id"
+    t.boolean "correct", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_answers_on_question_id"
+  end
 
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
@@ -57,6 +66,13 @@ ActiveRecord::Schema.define(version: 2020_04_04_140723) do
     t.integer "reason"
     t.integer "status"
     t.string "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.text "question_text"
+    t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -131,5 +147,6 @@ ActiveRecord::Schema.define(version: 2020_04_04_140723) do
     t.index ["user_id"], name: "index_wallet_transactions_on_user_id"
   end
 
+  add_foreign_key "answers", "questions"
   add_foreign_key "sessions", "users"
 end
