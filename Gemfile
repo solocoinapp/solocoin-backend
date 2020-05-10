@@ -53,6 +53,10 @@ gem 'geocoder'
 # Request throttling/blocking management
 gem 'rack-attack'
 
+# RailsAdmin is a Rails engine that provides an easy-to-use interface for managing your data.
+# https://github.com/sferik/rails_admin
+gem 'rails_admin', '~> 2.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
