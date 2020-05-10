@@ -15,6 +15,10 @@ module SoloCoin
     config.load_defaults 5.2
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
+    config.middleware.use ActionDispatch::Flash
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+
     config.lograge.enabled = true
     config.lograge.formatter = Lograge::Formatters::Json.new
     config.lograge.custom_options = lambda do |event|

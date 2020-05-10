@@ -2,7 +2,7 @@ require 'sidekiq/web'
 Sidekiq::Web.app_url = '/'
 
 Rails.application.routes.draw do
-
+  devise_for :users
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # Authenticated routes
   mount Sidekiq::Web => '/sidekiq'
