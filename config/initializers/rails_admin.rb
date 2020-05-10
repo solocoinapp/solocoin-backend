@@ -9,6 +9,7 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
+  ## == Authorization check ==
   config.authorize_with do
     unless current_user.try(:is_admin?)
        flash[:error] = "You are not authorize to access this page!"
