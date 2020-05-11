@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_184356) do
   create_table "answers", force: :cascade do |t|
     t.text "answer_text"
     t.bigint "question_id"
-    t.boolean "correct", default: false
+    t.boolean "correct", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_answers_on_question_id"
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_184356) do
 
   create_table "questions", force: :cascade do |t|
     t.text "question_text"
-    t.boolean "active"
+    t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_184356) do
     t.string "country_name"
     t.integer "home_duration_in_seconds", default: 0, null: false
     t.integer "away_duration_in_seconds", default: 0, null: false
-    t.boolean "is_admin", default: false
+    t.boolean "is_admin", default: false, null: false
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"
