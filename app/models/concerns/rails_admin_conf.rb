@@ -3,7 +3,7 @@ module RailsAdminConf
 
   included do
     rails_admin do
-      field :question_text do
+      field :name do
         help nil
       end
       field :answers do
