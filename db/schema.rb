@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_184356) do
   enable_extension "plpgsql"
 
   create_table "answers", force: :cascade do |t|
-    t.text "answer_text"
+    t.string "name"
     t.bigint "question_id"
     t.boolean "correct", default: false, null: false
     t.datetime "created_at", null: false
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_184356) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.text "question_text"
+    t.string "name"
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
