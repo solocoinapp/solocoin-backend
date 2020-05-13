@@ -1,4 +1,4 @@
 class QuestionSerializer < ApplicationSerializer
-  attributes :name
+  attributes :id, :name
   has_many :answers, serializer: AnswerSerializer
 end

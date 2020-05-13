@@ -2,6 +2,7 @@ class Question < ApplicationRecord
   include RailsAdminConf
 
   has_many :answers, dependent: :destroy, inverse_of: :question # the questions choices
+  has_many :user_questions_answers, dependent: :destroy
 
   accepts_nested_attributes_for :answers, allow_destroy: true
 

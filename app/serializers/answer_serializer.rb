@@ -1,3 +1,3 @@
 class AnswerSerializer < ApplicationSerializer
-  attributes :name, :correct
+  attributes :id, :name, :correct
 end
