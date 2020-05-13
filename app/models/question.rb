@@ -11,5 +11,16 @@ class Question < ApplicationRecord
 
   enum category: [:daily, :weekly]
 
-  scope :active, -> (category) { where(active: true, category: category).order('RANDOM()') }
+  # It will filter the questions based on activeness and category i.e daily and weekly
+  scope :active, -> (category) { where(active: true, category: category) }
+
+  # It will only fetch those questions of user which has not been answered
+  scope :not_seen, lambda { |user_id|
+    joins("LEFT OUTER JOIN user_questions_answers
+           ON user_questions_answers.question_id = questions.id AND
+           user_questions_answers.user_id = #{user_id}")
+    .where(user_questions_answers: {question_id: nil})
+  }
+
+
 end
