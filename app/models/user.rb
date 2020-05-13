@@ -20,6 +20,8 @@ class User < ApplicationRecord
   has_many :wallet_transactions, dependent: :destroy
   has_many :notification_tokens, dependent: :destroy
   has_many :sessions, dependent: :destroy
+  has_many :sent_referrals, class_name: 'Referral', foreign_key: :referrer_id
+  has_many :received_referrals, class_name: 'Referral', foreign_key: :candidate_id
   before_validation :remove_devise_validations, unless: :email_auth_validations
   after_validation :reverse_geocode
 
@@ -48,8 +50,14 @@ class User < ApplicationRecord
     user = User.find_or_initialize_by(mobile: params[:mobile])
     user.name = params[:name]
     user.identities.find_or_initialize_by(provider: 'mobile', uid: params[:uid])
+    update_referrals(params[:referral_code]) if params[:referral_code]
     user.save_provider_auth_user
     user
+  end
+
+  def update_referrals(code)
+    referral = Referral.find_by(code: code, candidate_id: nil)
+    referral.candidate = self if referral
   end
 
   def password_complexity
