@@ -66,7 +66,17 @@ namespace :deploy do
       end
     end
   end
+  task "deploy:db:load" do
+    on primary :db do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, "db:setup"
+        end
+      end
+    end
+  end
 end
 
+before "deploy:migrate", "deploy:db:load" if ENV["COLD"]
 before :deploy, "puma:config"
 after :deploy, 'sidekiq:restart'
