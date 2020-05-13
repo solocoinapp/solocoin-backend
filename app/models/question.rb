@@ -8,7 +8,7 @@ class Question < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates_presence_of :category
 
-  scope :active, -> { where(active: true).order('RANDOM()') }
-
   enum category: [:daily, :weekly]
+
+  scope :active, -> (category) { where(active: true, category: category).order('RANDOM()') }
 end

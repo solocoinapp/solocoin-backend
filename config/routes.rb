@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       post '/sessions/ping', to: 'sessions#ping'
       resource :leaderboard, only: :show
       get '/questions/daily', to: 'questions#daily'
+      get '/questions/weekly', to: 'questions#weekly'
     end
   end
 end
