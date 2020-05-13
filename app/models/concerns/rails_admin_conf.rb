@@ -12,6 +12,9 @@ module RailsAdminConf
       field :active do
         help nil
       end
+      field :category do
+        help nil
+      end
     end
   end
 end
