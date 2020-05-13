@@ -28,7 +28,12 @@ class Api::V1::SessionsController < Api::BaseController
 
   def create_session_for_user
     ensure_one_active_session
-    @session = Session.create!(create_params)
+    pending_referral = Referral.pending.for_candidate(current_user).first
+    create_params[:rewards] = pending_referral.reward if pending_referral
+    ActiveRecord::Base.transaction do
+      @session = Session.create!(create_params)
+      pending_referral.rewarded!
+    end
   end
 
   def ensure_one_active_session

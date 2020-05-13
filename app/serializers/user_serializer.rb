@@ -1,6 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :mobile, :profile_picture_url, :wallet_balance,
-             :home_duration_in_seconds, :lat, :lng
+             :home_duration_in_seconds, :lat, :lng, :total_referral_rewards
 
   def home_duration_in_seconds
     active_session = object.active_session
@@ -19,5 +19,9 @@ class UserSerializer < ActiveModel::Serializer
     else
       object.wallet_balance
     end
+  end
+
+  def total_referral_rewards
+    Referral.rewarded.for_referrer(object).sum(&:reward)
   end
 end

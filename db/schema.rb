@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_04_140723) do
+ActiveRecord::Schema.define(version: 2020_05_13_195719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,20 @@ ActiveRecord::Schema.define(version: 2020_04_04_140723) do
     t.string "details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "referrals", force: :cascade do |t|
+    t.bigint "referrer_id"
+    t.bigint "candidate_id"
+    t.integer "status", default: 0
+    t.string "code"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candidate_id"], name: "index_referrals_on_candidate_id"
+    t.index ["code"], name: "index_referrals_on_code"
+    t.index ["referrer_id"], name: "index_referrals_on_referrer_id"
+    t.index ["status"], name: "index_referrals_on_status"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -131,5 +145,7 @@ ActiveRecord::Schema.define(version: 2020_04_04_140723) do
     t.index ["user_id"], name: "index_wallet_transactions_on_user_id"
   end
 
+  add_foreign_key "referrals", "users", column: "candidate_id"
+  add_foreign_key "referrals", "users", column: "referrer_id"
   add_foreign_key "sessions", "users"
 end

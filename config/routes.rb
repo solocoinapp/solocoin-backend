@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       resource :home, only: :index
       resource :user, only: :update do
         get :profile, to: 'users#show'
+        resources :referrals, only: :create
       end
       resources :notification_tokens, only: :create
       post '/sessions/ping', to: 'sessions#ping'
