@@ -76,7 +76,6 @@ ActiveRecord::Schema.define(version: 2020_05_13_184343) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "category", default: 0
-    t.index ["category"], name: "index_questions_on_category"
   end
 
   create_table "sessions", force: :cascade do |t|

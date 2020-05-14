@@ -5,6 +5,6 @@ class Api::V1::QuestionsController < Api::BaseController
   end
   # For weekly quiz question
   def weekly
-    render json: Question.active.weekl.not_seen(@api_current_user.id).first
+    render json: Question.active.weekly.not_seen(@api_current_user.id).first
   end
 end
