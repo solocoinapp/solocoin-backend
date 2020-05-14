@@ -98,7 +98,6 @@ ActiveRecord::Schema.define(version: 2020_05_13_184343) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["answer_id"], name: "index_user_questions_answers_on_answer_id"
     t.index ["question_id"], name: "index_user_questions_answers_on_question_id"
     t.index ["user_id"], name: "index_user_questions_answers_on_user_id"
   end

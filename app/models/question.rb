@@ -13,8 +13,8 @@ class Question < ApplicationRecord
 
   # It will filter the questions based on activeness and category i.e daily and weekly
   scope :active, -> { where(active: true) }
-  scope :daily, -> { where(category: 'daily') }
-  scope :weekly, -> { where(category: 'weekly') }
+  scope :daily, -> { where(category: 0) }
+  scope :weekly, -> { where(category: 1) }
 
   # It will only fetch those questions of user which has not been answered
   scope :not_seen, lambda { |user_id|
