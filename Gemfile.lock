@@ -175,6 +175,7 @@ GEM
     erubi (1.9.0)
     et-orbi (1.1.6)
       tzinfo
+    execjs (2.7.0)
     factory_bot (5.1.1)
       activesupport (>= 4.2.0)
     factory_bot_rails (5.1.1)
@@ -407,6 +408,8 @@ GEM
     timecop (0.9.1)
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
+    uglifier (4.2.0)
+      execjs (>= 0.3.0, < 3)
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (3.7.0)
@@ -481,6 +484,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   timecop
   tzinfo-data
+  uglifier
   web-console (>= 3.6.2)
   webmock
   will_paginate (~> 3.1.0)

@@ -53,6 +53,8 @@ gem 'geocoder'
 # Request throttling/blocking management
 gem 'rack-attack'
 
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier'
 # RailsAdmin is a Rails engine that provides an easy-to-use interface for managing your data.
 # https://github.com/sferik/rails_admin
 gem 'rails_admin', '~> 2.0'
