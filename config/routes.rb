@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         get :profile, to: 'users#show'
       end
       resources :notification_tokens, only: :create
+      resources :user_questions_answers, only: :create
       post '/sessions/ping', to: 'sessions#ping'
       resource :leaderboard, only: :show
       get '/questions/daily', to: 'questions#daily'
