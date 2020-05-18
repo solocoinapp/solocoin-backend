@@ -8,7 +8,7 @@ class AdminAbility
       can :access, :rails_admin
       can :read, :dashboard            # dashboard access
       can :manage, :all             # allow superadmins to do anything
-    elsif user.thirdparty?
+    elsif user.partner?
       can :access, :rails_admin
       can :read, :dashboard            # dashboard access
       can :manage, RewardsSponsor, user_id: user.id

@@ -5,7 +5,18 @@
 
   <div class="field">
     <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true, autocomplete: "anas" %>
+    <%= f.text_field :name, autofocus: true, autocomplete: "username" %>
+  </div><div class="field">
+    <%= f.label :company %><br />
+    <%= f.text_field :company %>
+  </div>
+  <div class="field">
+    <%= f.label :position_at_company %><br />
+    <%= f.text_field :designation%>
+  </div>
+  <div class="field">
+    <%= f.label :mobile %><br />
+    <%= f.text_field :mobile%>
   </div>
   <div class="field">
     <%= f.label :email %><br />

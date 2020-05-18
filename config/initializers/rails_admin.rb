@@ -9,15 +9,6 @@ RailsAdmin.config do |config|
   end
   config.current_user_method(&:current_user)
 
-  ## == Authorization check ==
-  # config.authorize_with do
-  #   byebug
-  #   unless current_user.try(:is_admin?) || current_user.thirdparty?
-  #      flash[:error] = "You are not authorize to access this page!"
-  #      redirect_to main_app.root_path
-  #   end
-  # end
-
   ## == CancanCan ==
   config.authorize_with :cancancan, ::AdminAbility
 
