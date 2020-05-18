@@ -112,6 +112,7 @@ GEM
     brakeman (4.8.1)
     builder (3.2.4)
     byebug (10.0.2)
+    cancancan (3.1.0)
     capistrano (3.4.1)
       i18n
       rake (>= 10.0.0)
@@ -442,6 +443,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   brakeman
   byebug
+  cancancan
   capistrano (~> 3.4.0)
   capistrano-figaro-yml (~> 1.0.2)
   capistrano-rails

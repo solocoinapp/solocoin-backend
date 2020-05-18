@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_184343) do
+ActiveRecord::Schema.define(version: 2020_05_18_110042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,16 @@ ActiveRecord::Schema.define(version: 2020_05_13_184343) do
     t.integer "category", default: 0
   end
 
+  create_table "rewards_sponsors", force: :cascade do |t|
+    t.string "company_name"
+    t.string "offer_name"
+    t.text "terms_and_conditions"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_rewards_sponsors_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.bigint "user_id"
     t.integer "session_type"
@@ -137,6 +147,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_184343) do
     t.integer "home_duration_in_seconds", default: 0, null: false
     t.integer "away_duration_in_seconds", default: 0, null: false
     t.boolean "is_admin", default: false, null: false
+    t.integer "role", default: 0
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"
@@ -160,6 +171,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_184343) do
   end
 
   add_foreign_key "answers", "questions"
+  add_foreign_key "rewards_sponsors", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "user_questions_answers", "answers"
   add_foreign_key "user_questions_answers", "questions"

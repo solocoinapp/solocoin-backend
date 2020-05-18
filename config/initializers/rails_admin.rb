@@ -10,15 +10,16 @@ RailsAdmin.config do |config|
   config.current_user_method(&:current_user)
 
   ## == Authorization check ==
-  config.authorize_with do
-    unless current_user.try(:is_admin?)
-       flash[:error] = "You are not authorize to access this page!"
-       redirect_to main_app.root_path
-    end
-  end
+  # config.authorize_with do
+  #   byebug
+  #   unless current_user.try(:is_admin?) || current_user.thirdparty?
+  #      flash[:error] = "You are not authorize to access this page!"
+  #      redirect_to main_app.root_path
+  #   end
+  # end
 
   ## == CancanCan ==
-  # config.authorize_with :cancancan
+  config.authorize_with :cancancan, AdminAbility
 
   ## == Pundit ==
   # config.authorize_with :pundit
@@ -35,7 +36,55 @@ RailsAdmin.config do |config|
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory
-    new
+
+    new do
+      controller do
+        proc do
+          if request.get? # NEW
+
+            @object = @abstract_model.new
+            @authorization_adapter && @authorization_adapter.attributes_for(:new, @abstract_model).each do |name, value|
+              @object.send("#{name}=", value)
+            end
+            if object_params = params[@abstract_model.to_param]
+              @object.set_attributes(@object.attributes.merge(object_params))
+            end
+            respond_to do |format|
+              format.html { render @action.template_name }
+              format.js   { render @action.template_name, layout: false }
+            end
+
+          elsif request.post? # CREATE
+
+            @modified_assoc = []
+            @object = @abstract_model.new
+            # satisfy_strong_params!
+            sanitize_params_for!(request.xhr? ? :modal : :create)
+
+            @object.set_attributes(params[@abstract_model.param_key])
+            @authorization_adapter && @authorization_adapter.attributes_for(:create, @abstract_model).each do |name, value|
+              @object.send("#{name}=", value)
+            end
+
+            # customization
+            if @object.class == RewardsSponsor
+              # do whatever you want
+            end
+
+            if @object.save
+              @auditing_adapter && @auditing_adapter.create_object(@object, @abstract_model, _current_user)
+              respond_to do |format|
+                format.html { redirect_to_on_success }
+                format.js   { render json: {id: @object.id.to_s, label: @model_config.with(object: @object).object_label} }
+              end
+            else
+              handle_save_error
+            end
+          end
+        end
+      end
+    end
+
     export
     bulk_delete
     show
@@ -43,8 +92,5 @@ RailsAdmin.config do |config|
     delete
     show_in_app
 
-    ## With an audit adapter, you can add:
-    # history_index
-    # history_show
   end
 end

@@ -6,6 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :timeoutable, :lockable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  enum role: [:user, :admin, :thirdparty]
   # Profile picture
   mount_base64_uploader :profile_picture, ProfilePictureUploader
   after_destroy :remove_profile_picture!
@@ -20,8 +21,10 @@ class User < ApplicationRecord
   has_many :wallet_transactions, dependent: :destroy
   has_many :notification_tokens, dependent: :destroy
   has_many :sessions, dependent: :destroy
+  has_many :rewards_sponsors, dependent: :destroy, inverse_of: :user
   before_validation :remove_devise_validations, unless: :email_auth_validations
   after_validation :reverse_geocode
+  after_initialize :set_default_role, :if => :new_record?
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, if: :email_auth_validations
@@ -117,4 +120,7 @@ class User < ApplicationRecord
     end
   end
 
+  def set_default_role
+    self.role ||= :user
+  end
 end
