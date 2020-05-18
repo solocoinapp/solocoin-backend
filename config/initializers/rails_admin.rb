@@ -19,7 +19,7 @@ RailsAdmin.config do |config|
   # end
 
   ## == CancanCan ==
-  config.authorize_with :cancancan, AdminAbility
+  config.authorize_with :cancancan, ::AdminAbility
 
   ## == Pundit ==
   # config.authorize_with :pundit

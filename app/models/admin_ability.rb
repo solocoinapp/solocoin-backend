@@ -12,7 +12,6 @@ class AdminAbility
       can :access, :rails_admin
       can :read, :dashboard            # dashboard access
       can :manage, RewardsSponsor, user_id: user.id
-      # can :create, RewardsSponsor, user_id: user.id if user
     end
   end
 end
