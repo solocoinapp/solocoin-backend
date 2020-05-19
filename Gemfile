@@ -61,6 +61,7 @@ gem 'rails_admin', '~> 2.0'
 
 #The authorization Gem.
 gem 'cancancan'
+gem "bootstrap-sass-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SoloCoin</title>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_tag 'application' %>
+  </head>
+
+  <body>
+    <div class="container-narrow">
+      <div class="masthead">
+        <%= render 'layouts/user_header' %>
+        <img class="fixed-logo" src="https://www.solocoin.app/wp-content/uploads/2020/04/horizontal-logo1.png" width="225" alt="SoloCoin">
+      </div>
+      <hr />
+      <%= yield %>
+    </div>
+  </body>
+</html>
