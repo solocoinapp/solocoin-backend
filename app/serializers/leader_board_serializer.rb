@@ -1,4 +1,4 @@
-class LeaderBoardSerializer < ActiveModel::Serializer
+class LeaderBoardSerializer < ApplicationSerializer
   attributes :top_users, :user
   ALLOWED_USER_ATTRIBUTES = [
     'id',

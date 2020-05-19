@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_10_184356) do
+ActiveRecord::Schema.define(version: 2020_05_13_184343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_184356) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "category", default: 0
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -89,6 +90,16 @@ ActiveRecord::Schema.define(version: 2020_05_10_184356) do
     t.datetime "last_ping_time", null: false
     t.index ["status"], name: "index_sessions_on_status"
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "user_questions_answers", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "answer_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_user_questions_answers_on_question_id"
+    t.index ["user_id"], name: "index_user_questions_answers_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -150,4 +161,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_184356) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "sessions", "users"
+  add_foreign_key "user_questions_answers", "answers"
+  add_foreign_key "user_questions_answers", "questions"
+  add_foreign_key "user_questions_answers", "users"
 end

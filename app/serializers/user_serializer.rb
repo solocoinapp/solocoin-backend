@@ -1,4 +1,4 @@
-class UserSerializer < ActiveModel::Serializer
+class UserSerializer < ApplicationSerializer
   attributes :id, :name, :email, :mobile, :profile_picture_url, :wallet_balance,
              :home_duration_in_seconds, :lat, :lng
 
