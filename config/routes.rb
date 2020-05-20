@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # Authenticated routes
   mount Sidekiq::Web => '/sidekiq'
-
-  root 'application#health_check'
+  root to: redirect('/admin')
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
