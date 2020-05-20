@@ -1,5 +1,5 @@
 class Question < ApplicationRecord
-  include RailsAdminConf
+  include QuestionsRailsAdminConf
 
   has_many :answers, dependent: :destroy, inverse_of: :question # the questions choices
   has_many :user_questions_answers, dependent: :destroy
