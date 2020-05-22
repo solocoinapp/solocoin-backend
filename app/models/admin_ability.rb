@@ -11,7 +11,7 @@ class AdminAbility
     elsif user.partner?
       can :access, :rails_admin
       can :read, :dashboard            # dashboard access
-      can :manage, RewardsSponsor, user_id: user.id
+      can :manage, ::RewardsSponsor, user_id: user.id
     end
   end
 end
