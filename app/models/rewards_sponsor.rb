@@ -2,7 +2,8 @@ class RewardsSponsor < ApplicationRecord
   include RewardsSponsorsRailsAdminConf
 
   belongs_to :user, inverse_of: :rewards_sponsors
-  validates_presence_of :offer_name, :company_name, :terms_and_conditions
+  validates_presence_of :offer_name, :company_name, :terms_and_conditions, :coins, :coupon_code
+  validates_uniqueness_of :company_name
   validates_length_of :offer_name, minimum: 3, maximum: 50, allow_blank: false
   before_create :set_status
 
