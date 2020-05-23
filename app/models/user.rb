@@ -22,6 +22,7 @@ class User < ApplicationRecord
   has_many :notification_tokens, dependent: :destroy
   has_many :sessions, dependent: :destroy
   has_many :rewards_sponsors, dependent: :destroy, inverse_of: :user
+  has_many :redeemed_rewards, dependent: :destroy
   before_validation :remove_devise_validations, unless: :email_auth_validations
   after_validation :reverse_geocode
   before_create :set_role

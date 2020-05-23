@@ -29,7 +29,11 @@ Rails.application.routes.draw do
       end
       resources :notification_tokens, only: :create
       resources :user_questions_answers, only: :create
-      resources :rewards_sponsors, only: :index
+      resources :rewards_sponsors, only: :index do
+        member do
+          post :redeem
+        end
+      end
       post '/sessions/ping', to: 'sessions#ping'
       resource :leaderboard, only: :show
       get '/questions/daily', to: 'questions#daily'
