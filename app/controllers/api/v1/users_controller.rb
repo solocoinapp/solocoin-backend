@@ -2,6 +2,7 @@ class Api::V1::UsersController < Api::BaseController
   before_action :validate_reward_id, :already_redeemed, only: :redeem_rewards
 
   def show
+    current_user = User.includes(redeemed_rewards: :rewards_sponsor).where(id: @api_current_user.id).first
     render json: current_user
   end
 
