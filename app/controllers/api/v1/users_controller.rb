@@ -9,7 +9,12 @@ class Api::V1::UsersController < Api::BaseController
     current_user.update!(user_params)
     render json: current_user
   end
-
+  # API for redeem rewards
+  # POST   /api/v1/user/redeem_rewards
+  # body ex:
+  # {
+  #   "rewards_sponsor_id": 3
+  # }
   def redeem_rewards
     if current_user.wallet_balance.to_i >= @reward.coins
       current_user.redeemed_rewards.create(rewards_sponsor: @reward)
