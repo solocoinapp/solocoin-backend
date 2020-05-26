@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_23_105824) do
+ActiveRecord::Schema.define(version: 2020_05_26_183043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(version: 2020_05_23_105824) do
     t.integer "status", default: 0
     t.integer "coins"
     t.string "coupon_code"
+    t.decimal "offer_amount", precision: 8, scale: 2
     t.index ["user_id"], name: "index_rewards_sponsors_on_user_id"
   end
 

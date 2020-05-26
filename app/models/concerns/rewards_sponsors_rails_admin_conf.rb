@@ -19,6 +19,7 @@ module RewardsSponsorsRailsAdminConf
         end
       end
       create do
+        field :offer_amount
         field :offer_name
         field :company_name
         field :terms_and_conditions
