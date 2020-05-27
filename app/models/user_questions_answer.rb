@@ -13,11 +13,10 @@ class UserQuestionsAnswer < ApplicationRecord
 
   def update_wallet
     if question.daily? && answer.correct?
-      user.wallet_balance = user.wallet_balance.to_i  + DAILY_QUIZ_BONUS
+      ::Wallet::Transactions.update_user_balance(user, DAILY_QUIZ_BONUS)
     elsif question.weekly? && answer.correct?
-      user.wallet_balance.to_i  + WEEKLY_QUIZ_BONUS
+      ::Wallet::Transactions.update_user_balance(user, WEEKLY_QUIZ_BONUS)
     end
-    user.save
   end
 
 end

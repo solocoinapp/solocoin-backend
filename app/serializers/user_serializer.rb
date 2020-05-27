@@ -1,6 +1,6 @@
 class UserSerializer < ApplicationSerializer
   attributes :id, :name, :email, :mobile, :profile_picture_url, :wallet_balance,
-             :home_duration_in_seconds, :lat, :lng
+             :home_duration_in_seconds, :lat, :lng, :total_earned_coins
   has_many :redeemed_rewards, serializer: RedeemedRewardSerializer
 
   def home_duration_in_seconds
