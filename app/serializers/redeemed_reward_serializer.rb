@@ -1,5 +1,5 @@
 class RedeemedRewardSerializer < ApplicationSerializer
-  attributes :coupon_code, :offer_name
+  attributes :id, :coupon_code, :offer_name
 
   def coupon_code
     object.rewards_sponsor.coupon_code
