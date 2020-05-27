@@ -29,7 +29,11 @@ module RewardsSponsorsRailsAdminConf
           end
         end
         field :coupon_code
-        field :coins
+        field :coins do
+          visible do
+            bindings[:view]._current_user.role == "admin"
+          end
+        end
      end
       configure :user do
         hide
