@@ -6,7 +6,6 @@ class RedeemedReward < ApplicationRecord
   private
 
   def update_wallet
-    user.wallet_balance = user.wallet_balance.to_i  - rewards_sponsor.coins
-    user.save
+    ::Wallet::Transactions.update_balance_after_redeem(user, rewards_sponsor.coins)
   end
 end
