@@ -29,6 +29,7 @@ module RewardsSponsorsRailsAdminConf
           end
         end
         field :coupon_code
+        field :coins
      end
       configure :user do
         hide
