@@ -26,7 +26,11 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def badges
-    render json: {total_earned_coins: current_user.total_earned_coins, badges: Badge.all}
+    badges = Badge.all
+    render json: {
+                   total_earned_coins: current_user.total_earned_coins,
+                   badges: ActiveModel::Serializer::CollectionSerializer.new(badges, each_serializer: BadgeSerializer)
+                 }
   end
 
   private
