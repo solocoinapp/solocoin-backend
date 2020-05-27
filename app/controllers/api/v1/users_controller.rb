@@ -25,6 +25,10 @@ class Api::V1::UsersController < Api::BaseController
     end
   end
 
+  def badges
+    render json: {total_earned_coins: current_user.total_earned_coins, badges: Badge.all}
+  end
+
   private
 
   def user_params

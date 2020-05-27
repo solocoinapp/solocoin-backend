@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       resource :user, only: :update do
         get :profile, to: 'users#show'
         post :redeem_rewards
+        get :badges
       end
       resources :notification_tokens, only: :create
       resources :user_questions_answers, only: :create
