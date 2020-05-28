@@ -6,6 +6,7 @@ class CreateBadges < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :one_liner
       t.string :color
+      t.string :badge_image
 
       t.timestamps
     end

@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_095311) do
     t.string "name"
     t.string "one_liner"
     t.string "color"
+    t.string "badge_image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
