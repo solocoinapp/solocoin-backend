@@ -59,6 +59,10 @@ gem 'uglifier'
 # https://github.com/sferik/rails_admin
 gem 'rails_admin', '~> 2.0'
 
+#The authorization Gem.
+gem 'cancancan'
+gem "bootstrap-sass-rails"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

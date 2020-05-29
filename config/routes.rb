@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # Authenticated routes
   mount Sidekiq::Web => '/sidekiq'
-
-  root 'application#health_check'
+  root to: redirect('/admin')
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
@@ -27,9 +26,12 @@ Rails.application.routes.draw do
       resource :home, only: :index
       resource :user, only: :update do
         get :profile, to: 'users#show'
+        post :redeem_rewards
+        get :badges
       end
       resources :notification_tokens, only: :create
       resources :user_questions_answers, only: :create
+      resources :rewards_sponsors, only: :index
       post '/sessions/ping', to: 'sessions#ping'
       resource :leaderboard, only: :show
       get '/questions/daily', to: 'questions#daily'

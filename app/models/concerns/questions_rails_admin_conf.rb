@@ -1,4 +1,4 @@
-module RailsAdminConf
+module QuestionsRailsAdminConf
   extend ActiveSupport::Concern
 
   included do

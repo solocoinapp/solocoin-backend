@@ -1,7 +1,7 @@
 class Api::V1::UserQuestionsAnswersController < Api::BaseController
   before_action :validate_question_id
   # API for saving user's answer
-  # POST   /api/v1/carts/:cart_id/cart_items
+  # POST   /api/v1/user_questions_answers
   # body ex:
   # {
   #   "question_id": 2,

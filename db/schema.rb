@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_184343) do
+ActiveRecord::Schema.define(version: 2020_05_27_095311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,17 @@ ActiveRecord::Schema.define(version: 2020_05_13_184343) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "badges", force: :cascade do |t|
+    t.integer "level"
+    t.integer "min_points"
+    t.string "name"
+    t.string "one_liner"
+    t.string "color"
+    t.string "badge_image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "identities", id: :serial, force: :cascade do |t|
     t.string "uid", null: false
     t.string "provider", null: false
@@ -78,6 +89,29 @@ ActiveRecord::Schema.define(version: 2020_05_13_184343) do
     t.integer "category", default: 0
   end
 
+  create_table "redeemed_rewards", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "rewards_sponsor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rewards_sponsor_id"], name: "index_redeemed_rewards_on_rewards_sponsor_id"
+    t.index ["user_id"], name: "index_redeemed_rewards_on_user_id"
+  end
+
+  create_table "rewards_sponsors", force: :cascade do |t|
+    t.string "company_name"
+    t.string "offer_name"
+    t.text "terms_and_conditions"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 0
+    t.integer "coins"
+    t.string "coupon_code"
+    t.decimal "offer_amount", precision: 8, scale: 2
+    t.index ["user_id"], name: "index_rewards_sponsors_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.bigint "user_id"
     t.integer "session_type"
@@ -98,6 +132,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_184343) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["answer_id"], name: "index_user_questions_answers_on_answer_id"
     t.index ["question_id"], name: "index_user_questions_answers_on_question_id"
     t.index ["user_id"], name: "index_user_questions_answers_on_user_id"
   end
@@ -136,7 +171,10 @@ ActiveRecord::Schema.define(version: 2020_05_13_184343) do
     t.string "country_name"
     t.integer "home_duration_in_seconds", default: 0, null: false
     t.integer "away_duration_in_seconds", default: 0, null: false
-    t.boolean "is_admin", default: false, null: false
+    t.integer "role", default: 0
+    t.string "company"
+    t.string "designation"
+    t.integer "total_earned_coins", default: 0
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"
@@ -160,6 +198,9 @@ ActiveRecord::Schema.define(version: 2020_05_13_184343) do
   end
 
   add_foreign_key "answers", "questions"
+  add_foreign_key "redeemed_rewards", "rewards_sponsors"
+  add_foreign_key "redeemed_rewards", "users"
+  add_foreign_key "rewards_sponsors", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "user_questions_answers", "answers"
   add_foreign_key "user_questions_answers", "questions"

@@ -71,6 +71,6 @@ class Api::V1::CallbacksController < Api::BaseController
   end
 
   def mobile_provider_params
-    params.require(:user).permit(:uid, :country_code, :mobile, :name, :id_token)
+    params.require(:user).permit(:uid, :country_code, :mobile, :name, :id_token).with_defaults(role: 0)
   end
 end
