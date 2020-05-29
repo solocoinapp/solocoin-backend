@@ -4,7 +4,7 @@ set :log_level, :debug
 set :repository, "git@github.com:solocoinapp/solocoin-backend.git"
 server 'ec2-13-233-75-179.ap-south-1.compute.amazonaws.com', user: 'deploy', roles: %w{app db web}
 set :sidekiq_processes, 1
-set :ssh_options, { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa) }
+set :ssh_options, { forward_agent: true, user: fetch(:user), keys: %w("/home/mohd/Downloads/solocoin_aws_ec2_keys/solocoin_aws_ec2_keys/Prod/prod_16_apr_20.pem") }
 
 # set :ssh_options, {:forward_agent => true}
 # ssh_options[:keys] = %w("/home/mohd/Downloads/solocoin_aws_ec2_keys/solocoin_aws_ec2_keys/Prod/prod_16_apr_20.pem")
