@@ -20,13 +20,8 @@ set :format, :pretty
 set :log_level, :info
 
 # Default value for :pty is false
-set :pty, true
+set :pty, false
 
-set :ssh_options, {
-  forward_agent: true,
-  auth_methods: ["publickey"],
-  keys: ["/home/mohd/Downloads/solocoin_aws_ec2_keys/solocoin_aws_ec2_keys/Prod/prod_16_apr_20.pem"]
-}
 # Default value for :linked_files is []
 set :linked_files, fetch(:linked_files, []).push('config/application.yml')
 # set :linked_files, fetch(:linked_files, []).push('config/sidekiq.yml')
