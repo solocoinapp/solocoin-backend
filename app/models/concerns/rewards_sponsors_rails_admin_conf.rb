@@ -34,6 +34,12 @@ module RewardsSponsorsRailsAdminConf
             bindings[:view]._current_user.role == "admin"
           end
         end
+        field :user_id, :hidden do
+          visible true
+          default_value do
+            bindings[:view]._current_user.id
+          end
+        end
      end
       configure :user do
         hide
