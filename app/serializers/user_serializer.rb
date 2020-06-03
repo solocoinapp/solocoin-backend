@@ -15,8 +15,14 @@ class UserSerializer < ApplicationSerializer
   def wallet_balance
     active_session = object.active_session
     if active_session.present?
-      object.wallet_balance + Sessions::Rewards.calculate(active_session.session_type,
-                                                          Sessions::Duration.in_minutes(active_session))
+      dynamic_balance = Sessions::Rewards.calculate(active_session.session_type, Sessions::Duration.in_minutes(active_session))
+      if dynamic_balance.negative? && object.wallet_balance >= dynamic_balance.abs
+        object.wallet_balance + dynamic_balance
+      elsif dynamic_balance.positive?
+        object.wallet_balance + dynamic_balance
+      else
+        object.wallet_balance
+      end
     else
       object.wallet_balance
     end

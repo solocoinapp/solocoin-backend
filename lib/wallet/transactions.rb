@@ -2,7 +2,13 @@ module Wallet
   module Transactions
     def self.update_user_balance(user, new_amount)
       previous_balance = user.wallet_balance
-      new_balance = new_amount + previous_balance
+      new_balance = if new_amount.negative? && user.wallet_balance >= new_amount.abs
+        new_amount + previous_balance
+      elsif new_amount.positive?
+        new_amount + previous_balance
+      else
+        user.wallet_balance
+      end
       total_earned_coins = user.total_earned_coins + new_amount
       user.update!(wallet_balance: new_balance, total_earned_coins: total_earned_coins)
     end
