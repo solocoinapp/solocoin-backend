@@ -4,7 +4,7 @@ deploy_server_hostname: solocoin.app
 s3_region: us-east-1
 s3_bucket_name: ''
 s3_access_key_id: ''
-appsignal_app_env: prod
+appsignal_app_env: development
 smtp_host: 'email-smtp.us-east-1.amazonaws.com'
 smtp_port: '25'
 smtp_tls: 'true'
