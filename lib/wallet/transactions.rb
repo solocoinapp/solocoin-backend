@@ -7,8 +7,10 @@ module Wallet
       elsif new_amount.positive?
         new_amount + previous_balance
       end
-      if new_amount.positive?
-        total_earned_coins = user.total_earned_coins + new_amount
+      total_earned_coins = if new_amount.positive?
+        user.total_earned_coins + new_amount
+      else
+        user.total_earned_coins
       end
       user.update!(wallet_balance: new_balance, total_earned_coins: total_earned_coins)
     end
