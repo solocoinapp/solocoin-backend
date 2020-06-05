@@ -6,8 +6,6 @@ module Wallet
         new_amount + previous_balance
       elsif new_amount.positive?
         new_amount + previous_balance
-      else
-        user.wallet_balance
       end
       if new_amount.positive?
         total_earned_coins = user.total_earned_coins + new_amount

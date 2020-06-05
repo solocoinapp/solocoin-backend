@@ -20,8 +20,6 @@ class UserSerializer < ApplicationSerializer
         object.wallet_balance + dynamic_balance
       elsif dynamic_balance.positive?
         object.wallet_balance + dynamic_balance
-      else
-        object.wallet_balance
       end
     else
       object.wallet_balance
