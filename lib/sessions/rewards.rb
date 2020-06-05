@@ -1,7 +1,7 @@
 module Sessions
   module Rewards
     REWARDS_PER_MIN = 1
-    PENALTY_PER_MIN = 10
+    PENALTY_PER_MIN = 1
 
     def self.reward(session)
       minutes = Duration.in_minutes(session)
