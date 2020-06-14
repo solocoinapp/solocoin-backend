@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_095311) do
+ActiveRecord::Schema.define(version: 2020_06_14_102539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,12 @@ ActiveRecord::Schema.define(version: 2020_05_27_095311) do
     t.string "one_liner"
     t.string "color"
     t.string "badge_image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -109,6 +115,9 @@ ActiveRecord::Schema.define(version: 2020_05_27_095311) do
     t.integer "coins"
     t.string "coupon_code"
     t.decimal "offer_amount", precision: 8, scale: 2
+    t.bigint "category_id"
+    t.string "brand_logo"
+    t.index ["category_id"], name: "index_rewards_sponsors_on_category_id"
     t.index ["user_id"], name: "index_rewards_sponsors_on_user_id"
   end
 
@@ -200,6 +209,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_095311) do
   add_foreign_key "answers", "questions"
   add_foreign_key "redeemed_rewards", "rewards_sponsors"
   add_foreign_key "redeemed_rewards", "users"
+  add_foreign_key "rewards_sponsors", "categories"
   add_foreign_key "rewards_sponsors", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "user_questions_answers", "answers"

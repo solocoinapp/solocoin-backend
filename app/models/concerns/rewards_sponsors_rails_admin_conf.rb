@@ -7,6 +7,7 @@ module RewardsSponsorsRailsAdminConf
         field :offer_name
         field :company_name
         field :terms_and_conditions
+        field :brand_logo
         field :user do
           visible do
             bindings[:view]._current_user.role == "admin"
@@ -23,6 +24,8 @@ module RewardsSponsorsRailsAdminConf
         field :offer_name
         field :company_name
         field :terms_and_conditions
+        field :category, :belongs_to_association
+        field :brand_logo
         field :status do
           visible do
             bindings[:view]._current_user.role == "admin"
