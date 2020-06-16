@@ -1,7 +1,8 @@
 module Sessions
   module Rewards
     REWARDS_PER_MIN = 1
-    PENALTY_PER_MIN = 1
+    # Changing it to 0 for now as we are not deducting coins anymore
+    PENALTY_PER_MIN = 0
 
     def self.reward(session)
       minutes = Duration.in_minutes(session)
