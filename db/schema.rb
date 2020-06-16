@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_14_102539) do
+ActiveRecord::Schema.define(version: 2020_06_15_081525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 2020_06_14_102539) do
     t.decimal "offer_amount", precision: 8, scale: 2
     t.bigint "category_id"
     t.string "brand_logo"
+    t.integer "reward_type", default: 0
     t.index ["category_id"], name: "index_rewards_sponsors_on_category_id"
     t.index ["user_id"], name: "index_rewards_sponsors_on_user_id"
   end
