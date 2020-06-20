@@ -15,7 +15,7 @@ class UserSerializer < ApplicationSerializer
   def wallet_balance
     active_session = object.active_session
     if active_session.present?
-      Sessions::Rewards.calculate(active_session.session_type,
+      object.wallet_balance + Sessions::Rewards.calculate(active_session.session_type,
                                   Sessions::Duration.in_minutes(active_session))
       # Uncomment this code when we start coins deduction
 
