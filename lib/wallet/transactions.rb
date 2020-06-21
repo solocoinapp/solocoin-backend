@@ -1,7 +1,7 @@
 module Wallet
   module Transactions
     def self.update_user_balance(user, new_amount)
-      previous_balance = user.wallet_balance
+      previous_balance = user.wallet_balance.to_i
       new_balance = new_amount + previous_balance
 
       # In case we activate the coins deduction we can uncomment the below code
