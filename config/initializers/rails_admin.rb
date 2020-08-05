@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 RailsAdmin.config do |config|
+  config.model 'CoinCode' do
+    label "Coupons"
+    # label_plural "Beautiful boxen"
+  end
   ### Popular gems integration
 
   ## == Devise ==
