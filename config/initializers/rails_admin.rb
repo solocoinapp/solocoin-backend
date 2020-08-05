@@ -62,6 +62,11 @@ RailsAdmin.config do |config|
               # do whatever you want
             end
 
+            # customization
+            if @object.class == CoinCode
+              # do whatever you want
+            end
+
             if @object.save
               @auditing_adapter && @auditing_adapter.create_object(@object, @abstract_model, _current_user)
               respond_to do |format|
