@@ -40,6 +40,9 @@ Rails.application.routes.draw do
       resource :leaderboard, only: :show
       get '/questions/daily', to: 'questions#daily'
       get '/questions/weekly', to: 'questions#weekly'
+
+      post '/coin_codes/redeem_coupon', to: 'coin_codes#redeem_coupon'
+      get '/coin_codes/valid_coupon', to: 'coin_codes#valid_coupon'
     end
   end
 end
