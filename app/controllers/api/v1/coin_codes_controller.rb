@@ -17,6 +17,7 @@ class Api::V1::CoinCodesController < Api::BaseController
   end
 
   def referral
+    params[:amount] = "500"
     return render_error(:unprocessable_entity, 'Invalid Referral!') if params[:referral_code].blank?
     referral_user = User.find_by(auth_token: params[:referral_code])
     return render_error(:unprocessable_entity, 'Invalid Referral!') if referral_user.blank?
