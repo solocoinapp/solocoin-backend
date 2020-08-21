@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_15_081525) do
+ActiveRecord::Schema.define(version: 2020_08_21_074328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,14 @@ ActiveRecord::Schema.define(version: 2020_06_15_081525) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "coin_codes", force: :cascade do |t|
+    t.string "coupon_code"
+    t.float "amount"
+    t.integer "limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "identities", id: :serial, force: :cascade do |t|
     t.string "uid", null: false
     t.string "provider", null: false
@@ -102,6 +110,16 @@ ActiveRecord::Schema.define(version: 2020_06_15_081525) do
     t.datetime "updated_at", null: false
     t.index ["rewards_sponsor_id"], name: "index_redeemed_rewards_on_rewards_sponsor_id"
     t.index ["user_id"], name: "index_redeemed_rewards_on_user_id"
+  end
+
+  create_table "referrals", force: :cascade do |t|
+    t.string "code"
+    t.float "amount"
+    t.integer "referrals_count", default: 0
+    t.float "referrals_amount", default: 0.0
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "rewards_sponsors", force: :cascade do |t|
@@ -185,6 +203,7 @@ ActiveRecord::Schema.define(version: 2020_06_15_081525) do
     t.string "company"
     t.string "designation"
     t.integer "total_earned_coins", default: 0
+    t.jsonb "coin_codes"
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"
