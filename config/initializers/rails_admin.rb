@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 RailsAdmin.config do |config|
+  config.model 'CoinCode' do
+    label "Coupons"
+    # label_plural "Beautiful boxen"
+  end
   ### Popular gems integration
 
   ## == Devise ==
@@ -59,6 +63,11 @@ RailsAdmin.config do |config|
 
             # customization
             if @object.class == RewardsSponsor
+              # do whatever you want
+            end
+
+            # customization
+            if @object.class == CoinCode
               # do whatever you want
             end
 

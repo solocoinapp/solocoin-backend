@@ -23,9 +23,12 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :rewards_sponsors, dependent: :destroy, inverse_of: :user
   has_many :redeemed_rewards, dependent: :destroy
+  has_one :referral, dependent: :destroy
+
   before_validation :remove_devise_validations, unless: :email_auth_validations
   after_validation :reverse_geocode
   before_create :set_role
+  after_create :create_referral_code
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, if: :email_auth_validations
@@ -95,6 +98,16 @@ class User < ApplicationRecord
 
   def has_active_session?
     !!active_session
+  end
+
+  def create_referral_code
+    Referral.create(
+      code: SecureRandom.alphanumeric,
+      amount: 500,
+      referrals_count: 0,
+      referrals_amount: 0.0,
+      user_id: self.id
+    )
   end
 
   private
