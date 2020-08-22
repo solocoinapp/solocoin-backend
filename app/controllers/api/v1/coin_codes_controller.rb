@@ -13,7 +13,7 @@ class Api::V1::CoinCodesController < Api::BaseController
   end
 
   def valid_coupon
-    render json: {success: true, message: "Valid Coupen"}
+    render json: {success: true, message: "Valid Coupon"}
   end
 
   def referral

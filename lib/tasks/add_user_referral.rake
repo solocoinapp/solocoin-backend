@@ -1,15 +1,9 @@
 namespace :add_referral do
 
-  desc "Add Referral to User"
+  desc "Update Referral of User"
   task user: :environment do
-    User.find_each do |user|
-    	Referral.create(
-    		code: SecureRandom.alphanumeric,
-    		amount: 500,
-    		referrals_count: 0,
-    		referrals_amount: 0.0,
-    		user_id: user.id
-    	)
+    Referral.find_each do |referral|
+      referral.update_attributes(code: SecureRandom.alphanumeric(6))
     end
   end
 end
