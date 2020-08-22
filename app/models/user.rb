@@ -102,7 +102,7 @@ class User < ApplicationRecord
 
   def create_referral_code
     Referral.create(
-      code: SecureRandom.alphanumeric,
+      code: SecureRandom.alphanumeric(6),
       amount: 500,
       referrals_count: 0,
       referrals_amount: 0.0,
