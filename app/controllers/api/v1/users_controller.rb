@@ -36,7 +36,7 @@ class Api::V1::UsersController < Api::BaseController
   private
 
   def user_params
-    params.require(:user).permit(:name, :mobile, :profile_picture, :lat, :lng)
+    params.permit(:name, :mobile, :profile_picture, :lat, :lng)
   end
 
   # Ensures that the reward exists
