@@ -21,6 +21,7 @@ module RewardsSponsorsRailsAdminConf
       end
       create do
         field :reward_type
+        field :currency_type
         field :offer_amount
         field :offer_name
         field :company_name
