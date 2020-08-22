@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   extend ExceptionHandlers
-
+  include UserRailsAdminConf
+  
   acts_as_mappable
   audited except: :password
   devise :database_authenticatable, :registerable, :timeoutable, :lockable,
