@@ -6,7 +6,7 @@ class Api::V1::CoinCodesController < Api::BaseController
     coin_codes = current_user.coin_codes.blank? ? {} : current_user.coin_codes
     coin_codes["#{@coupon.id}"] = @coupon.coupon_code
     wallet_balance = current_user.wallet_balance.to_f + @coupon.amount.to_f
-    current_user.update(wallet_balance: wallet_balance, coin_codes: coin_codes)
+    current_user.update(wallet_balance: wallet_balance, coin_codes: coin_codes, total_earned_coins: total_earned_coins(current_user, @coupon.amount.to_f))
     limit = @coupon.limit - 1
     @coupon.update(limit: limit)
     render json: {success: true, message: "Successfully Redeemed!"}
@@ -24,10 +24,12 @@ class Api::V1::CoinCodesController < Api::BaseController
     referral = Referral.find_by(code: params[:referral_coupon])
     amount = referral.amount || 500
     return render_error(:unprocessable_entity, 'Invalid Amount!') if amount.to_f <= 0
+    return render_error(:unprocessable_entity, 'Invalid Use Of Token!') if referral.user == referred_user
+    return render_error(:unprocessable_entity, 'Coupon Already Redeemed!') if referred_user.is_redeemed
     user_updated_balance = referral.user.wallet_balance.to_f + amount.to_f
     referral_user_updated_balance = referred_user.wallet_balance.to_f + amount.to_f
-    referral.user.update(wallet_balance: user_updated_balance)
-    referred_user.update(wallet_balance: referral_user_updated_balance)
+    referral.user.update(wallet_balance: user_updated_balance, total_earned_coins: total_earned_coins(referral.user, amount.to_f))
+    referred_user.update(wallet_balance: referral_user_updated_balance, is_redeemed: true, total_earned_coins: total_earned_coins(referred_user, amount.to_f))
     referral.update(
       referrals_count: referral.referrals_count + 1,
       referrals_amount: referral.referrals_amount + amount
@@ -47,4 +49,7 @@ class Api::V1::CoinCodesController < Api::BaseController
     end
   end
 
+  def total_earned_coins(user, amount)
+    user.total_earned_coins + amount
+  end
 end
