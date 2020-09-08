@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_21_074328) do
+ActiveRecord::Schema.define(version: 2020_09_08_074518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 2020_08_21_074328) do
     t.bigint "category_id"
     t.string "brand_logo"
     t.integer "reward_type", default: 0
+    t.string "currency_type", default: "$"
     t.index ["category_id"], name: "index_rewards_sponsors_on_category_id"
     t.index ["user_id"], name: "index_rewards_sponsors_on_user_id"
   end
@@ -204,6 +205,7 @@ ActiveRecord::Schema.define(version: 2020_08_21_074328) do
     t.string "designation"
     t.integer "total_earned_coins", default: 0
     t.jsonb "coin_codes"
+    t.boolean "is_redeemed", default: false
     t.index ["auth_token"], name: "index_users_on_auth_token"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email"
