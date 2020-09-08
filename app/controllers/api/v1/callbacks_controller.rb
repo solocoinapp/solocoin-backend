@@ -3,12 +3,13 @@ class Api::V1::CallbacksController < Api::BaseController
   before_action :validate_country_code, :validate_mobile_number, :validate_uid, :validate_id_token, :verify_firebase_token
 
   def mobile_login
-    @user = User.find_by(mobile: mobile_provider_params[:mobile])
+    mobile_no = mobile_provider_params[:country_code] + mobile_provider_params[:mobile]
+    @user = User.find_by(mobile: mobile_no)
 
     if @user.present?
       render_success
     else
-      render json: {}, status: :unauthorized
+      render json: { error: "User does not exist" }, status: :unauthorized
     end
   end
 
