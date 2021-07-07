@@ -1,5 +1,5 @@
 resource "aws_security_group" "app_servers" {
-  name        = "app_servers"
+  name        = "${var.environment}_app_servers"
   description = "Allow inbound web traffic"
   vpc_id      = module.vpc.vpc_id
 
@@ -33,7 +33,7 @@ resource "aws_security_group" "app_servers" {
 }
 
 resource "aws_security_group" "databases" {
-  name        = "databases"
+  name        = "${var.environment}_databases"
   description = "Allow traffic from application SG to databases"
   vpc_id      = module.vpc.vpc_id
 
@@ -53,7 +53,7 @@ resource "aws_security_group" "databases" {
 
 
 resource "aws_security_group" "redis_clusters" {
-  name        = "redis_clusters"
+  name        = "${var.environment}_redis_clusters"
   description = "Allow traffic from application SG to redis_clusters"
   vpc_id      = module.vpc.vpc_id
 

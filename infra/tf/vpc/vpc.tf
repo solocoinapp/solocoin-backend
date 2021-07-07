@@ -1,7 +1,7 @@
 module "vpc" {
   source = "git::git@github.com:terraform-aws-modules/terraform-aws-vpc.git?ref=b76606e951b499d8ef84701a333e3795f100f3ef"
 
-  name = "solocoinapp"
+  name = "qa01"
 
   cidr = "10.0.0.0/16"
 
@@ -19,6 +19,6 @@ module "vpc" {
   }
 
   vpc_tags = {
-    Name = "solocoinapp"
+    Name = "${var.environment}"
   }
 }
